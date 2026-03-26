@@ -1,9 +1,0 @@
-{
-  "auth": {
-    "unknown_user": "Không xác định được người dùng"
-  },
-  "property": {
-    "create_success": "Tạo tin đăng bất động sản thành công",
-    "create_failed": "Tạo tin đăng bất động sản thất bại"
-  }
-}

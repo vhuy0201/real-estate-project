@@ -1,25 +1,20 @@
 import express from "express";
-import i18nMiddleware from "./config/i18n.config";
 import cors from "cors";
-import cookieParser from "cookie-parser"; 
-
+import dotenv from "dotenv";
+import routes from "./routes/index.route";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
 
+dotenv.config();
 
 const app = express();
 
-app.use(cors({
-  origin: true, 
-  credentials: true, 
-}));
-
-app.use(cookieParser());
-
-// Middleware parse body
-app.use(i18nMiddleware);
+// Middlewares
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
+app.use("/api", routes);
 
 // Global error handler
 app.use(errorHandler);

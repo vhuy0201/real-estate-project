@@ -1,24 +1,13 @@
+// src/models/propertyType.model.ts
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IPropertyType extends Document {
-  type_name: { vi: string; en: string };
-  deleted: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  type_name: string;
 }
 
 const PropertyTypeSchema = new Schema<IPropertyType>(
-  {
-    type_name: {
-      vi: { type: String, required: true, trim: true },
-      en: { type: String, required: true, trim: true },
-    },
-    deleted: { type: Boolean, default: false },
-  },
+  { type_name: { type: String, required: true, unique: true } },
   { timestamps: true }
 );
-
-PropertyTypeSchema.index({ "type_name.vi": 1 }, { unique: true, sparse: true });
-PropertyTypeSchema.index({ "type_name.en": 1 }, { unique: true, sparse: true });
 
 export default mongoose.model<IPropertyType>("PropertyType", PropertyTypeSchema);
