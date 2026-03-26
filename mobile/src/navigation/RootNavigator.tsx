@@ -21,10 +21,7 @@ import ChangePasswordScreen from "../screens/common/ChangePasswordScreen";
 import BookAppointmentScreen from "../screens/buyer/BookAppointmentScreen";
 import AgentAppointmentsScreen from "../screens/agent/AgentAppointmentsScreen";
 import BuyerAppointmentDetailScreen from "../screens/buyer/BuyerAppointmentDetailScreen";
-<<<<<<< HEAD
-=======
 
->>>>>>> develop
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigator() {

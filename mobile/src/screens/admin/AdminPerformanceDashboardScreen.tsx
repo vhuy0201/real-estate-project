@@ -148,6 +148,8 @@ export default function AdminPerformanceDashboardScreen() {
                 withInnerLines={false}
                 withHorizontalLabels={false}
                 showValuesOnTopOfBars={false}
+                yAxisLabel=""
+                yAxisSuffix=""
                 chartConfig={{
                   ...chartConfig,
                   backgroundGradientFrom: "#f8fafc",
