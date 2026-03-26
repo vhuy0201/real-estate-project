@@ -11,7 +11,7 @@ import { useMyFavorites } from '../hooks/useFavorites';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store';
 import FavoritesScreen from '../screens/buyer/FavoritesScreen';
-import BuyerAppointmentsScreen from '../screens/buyer/BuyerAppointmentsScreen';
+import BuyerAppointmentListScreen from '../screens/buyer/BuyerAppointmentListScreen';
 
 const Tab = createBottomTabNavigator<BuyerTabParamList>();
 
@@ -44,7 +44,7 @@ export default function BuyerTabNavigator() {
           ),
         }}
       />
-      <Tab.Screen name="Appointments" component={BuyerAppointmentsScreen} options={{ tabBarLabel: 'Lịch hẹn', tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} /> }} />
+      <Tab.Screen name="Appointments" component={BuyerAppointmentListScreen} options={{ tabBarLabel: 'Lịch hẹn', tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} /> }} />
       <Tab.Screen 
         name="Notifications" 
         component={NotificationScreen} 

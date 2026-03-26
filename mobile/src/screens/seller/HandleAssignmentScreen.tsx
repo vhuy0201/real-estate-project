@@ -7,9 +7,9 @@ import {
   ScrollView,
   Pressable,
   ActivityIndicator,
-  SafeAreaView,
   Alert,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { useGetSellerAssignments, useAcceptAssignment, useRejectAssignment } from '../../hooks/useAssignment';
@@ -114,7 +114,7 @@ export const HandleAssignmentScreen: React.FC = () => {
               style={[
                 styles.filterButtonText,
                 statusFilter === option.value &&
-                  styles.filterButtonTextActive,
+                styles.filterButtonTextActive,
               ]}
             >
               {option.label}
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     gap: 8,
-    alignItems: 'center', 
+    alignItems: 'center',
   },
   filterButton: {
     paddingHorizontal: 12,

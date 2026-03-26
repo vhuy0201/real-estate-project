@@ -19,7 +19,11 @@ import PublicPropertyExploreScreen from "../screens/agent/PublicPropertyExploreS
 import EditProfileScreen from "../screens/common/EditProfileScreen";
 import ChangePasswordScreen from "../screens/common/ChangePasswordScreen";
 import BookAppointmentScreen from "../screens/buyer/BookAppointmentScreen";
+<<<<<<< HEAD
 import AgentAppointmentsScreen from "../screens/agent/AgentAppointmentsScreen";
+=======
+import BuyerAppointmentDetailScreen from "../screens/buyer/BuyerAppointmentDetailScreen";
+>>>>>>> be8fc24 (feat(buyer-appointment): implement API, hooks, and mobile screens)
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -101,8 +105,13 @@ export default function RootNavigator() {
               options={{ animation: "slide_from_bottom" }}
             />
             <Stack.Screen
+<<<<<<< HEAD
               name="AgentAppointments"
               component={AgentAppointmentsScreen}
+=======
+              name="BuyerAppointmentDetail"
+              component={BuyerAppointmentDetailScreen}
+>>>>>>> be8fc24 (feat(buyer-appointment): implement API, hooks, and mobile screens)
               options={{ animation: "slide_from_right" }}
             />
           </>

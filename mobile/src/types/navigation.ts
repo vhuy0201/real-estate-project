@@ -49,6 +49,7 @@ export type RootStackParamList = {
   ChangePassword: undefined;
   BookAppointment: { propertyId: string };
   AgentAppointments: undefined;
+  BuyerAppointmentDetail: { appointmentId: string };
 };
 
 // You can add global typical declarations to React Navigation here

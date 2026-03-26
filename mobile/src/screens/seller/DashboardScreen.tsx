@@ -95,7 +95,7 @@ export default function DashboardScreen() {
 
           <Pressable 
             style={styles.gridItem}
-            onPress={() => navigation.navigate('AssignmentList')}
+            onPress={() => navigation.navigate('SellerAgentMain', { screen: 'HandleAssignment' } as any)}
           >
             <View style={[styles.iconBox, { backgroundColor: '#fef3c7' }]}>
               <Ionicons name="document-text" size={28} color="#d97706" />

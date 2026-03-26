@@ -257,6 +257,26 @@ export const appointmentService = {
     };
   },
 
+  async getAppointmentById(appointmentId: string, buyerId: string) {
+    ensureValidObjectId(appointmentId, "Appointment ID không hợp lệ");
+    ensureValidObjectId(buyerId, "Buyer ID không hợp lệ");
+
+    const appointment = await Appointment.findOne({
+      _id: appointmentId,
+      buyer_id: buyerId,
+    })
+      .populate("property_id", "title images price address status")
+      .populate("agent_id", "fullName email phone avatar")
+      .populate("seller_id", "fullName email phone avatar")
+      .lean();
+
+    if (!appointment) {
+      throw Object.assign(new Error("Lịch hẹn không tồn tại"), { status: 404 });
+    }
+
+    return appointment;
+  },
+
   async cancelAppointment(appointmentId: string, buyerId: string) {
     ensureValidObjectId(appointmentId, "Appointment ID không hợp lệ");
     ensureValidObjectId(buyerId, "Buyer ID không hợp lệ");

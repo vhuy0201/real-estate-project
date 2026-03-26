@@ -25,3 +25,9 @@ export async function cancelAppointment(id: string) {
   const response = await api.patch(`/client/buyer/appointments/${id}/cancel`);
   return response.data?.data ?? response.data;
 }
+
+/** Lấy chi tiết lịch hẹn — GET /client/buyer/appointments/:id */
+export async function getAppointmentDetail(id: string) {
+  const response = await api.get(`/client/buyer/appointments/${id}`);
+  return response.data?.data ?? response.data;
+}
