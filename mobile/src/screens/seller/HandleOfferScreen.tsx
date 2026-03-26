@@ -8,7 +8,6 @@ import {
   Pressable,
   ActivityIndicator,
   SafeAreaView,
-  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useQueryClient } from "@tanstack/react-query";
@@ -19,6 +18,7 @@ import {
 } from "../../hooks/useOffer";
 import { OfferListForSeller } from "../../components/offer/OfferListForSeller";
 import { OfferStatus } from "../../types/offer";
+import { showAppNotice } from "../../utils/appNotice";
 
 type StatusFilter = OfferStatus | "all";
 
@@ -57,15 +57,16 @@ export const HandleOfferScreen: React.FC = () => {
     async (offerId: string) => {
       try {
         await mutateAcceptOffer(offerId);
-        Alert.alert(
-          "Thành công",
-          "Offer đã được chấp nhận. Deal được tạo tự động.",
-        );
+        showAppNotice({
+          type: "success",
+          title: "Thành công",
+          message: "Offer đã được chấp nhận. Deal được tạo tự động.",
+        });
         queryClient.invalidateQueries({ queryKey: ["sellerOffers"] });
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Lỗi khi chấp nhận offer";
-        Alert.alert("Lỗi", message);
+        showAppNotice({ type: "error", title: "Lỗi", message });
       }
     },
     [mutateAcceptOffer, queryClient],
@@ -75,12 +76,16 @@ export const HandleOfferScreen: React.FC = () => {
     async (offerId: string, reason: string) => {
       try {
         await mutateRejectOffer({ offerId, reason });
-        Alert.alert("Thành công", "Offer đã được từ chối.");
+        showAppNotice({
+          type: "success",
+          title: "Thành công",
+          message: "Offer đã được từ chối.",
+        });
         queryClient.invalidateQueries({ queryKey: ["sellerOffers"] });
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Lỗi khi từ chối offer";
-        Alert.alert("Lỗi", message);
+        showAppNotice({ type: "error", title: "Lỗi", message });
       }
     },
     [mutateRejectOffer, queryClient],

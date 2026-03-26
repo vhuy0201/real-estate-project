@@ -194,9 +194,12 @@ export default function HomeScreen() {
             : "Đã thêm vào yêu thích",
         );
       } catch (err: any) {
+        const apiMessage =
+          err?.response?.data?.message ||
+          err?.message;
         Alert.alert(
           'Lỗi',
-          err?.message || 'Không thể cập nhật yêu thích. Vui lòng thử lại.',
+          apiMessage || 'Không thể cập nhật yêu thích. Vui lòng thử lại.',
         );
       }
     },

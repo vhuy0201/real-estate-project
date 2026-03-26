@@ -5,6 +5,7 @@ import {
   getAdminSummary,
   getRevenueChart,
   getTopAgents,
+  getTopSellers,
   getUserRolesSummary,
 } from "../../controllers/admin/report.controller";
 
@@ -39,6 +40,13 @@ router.get(
   verifyToken,
   roleCheck("admin"),
   getTopAgents
+);
+
+router.get(
+  "/top-sellers",
+  verifyToken,
+  roleCheck("admin"),
+  getTopSellers
 );
 
 export default router;

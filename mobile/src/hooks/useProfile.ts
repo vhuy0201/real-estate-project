@@ -1,5 +1,4 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../store/auth/authSlice';
 import { useSelector } from 'react-redux';
@@ -10,6 +9,7 @@ import {
   ChangePasswordParams,
   UserProfile,
 } from '../services/profileService';
+import { showAppNotice } from '../utils/appNotice';
 
 export const useProfile = () => {
   const queryClient = useQueryClient();
@@ -65,10 +65,14 @@ export const useProfile = () => {
           })
         );
       }
-      Alert.alert('Thành công', 'Cập nhật hồ sơ thành công!');
+      showAppNotice({ type: 'success', title: 'Thành công', message: 'Cập nhật hồ sơ thành công!' });
     },
     onError: (error: any) => {
-      Alert.alert('Lỗi cập nhật', getErrorMessage(error, 'Cập nhật hồ sơ thất bại.'));
+      showAppNotice({
+        type: 'error',
+        title: 'Lỗi cập nhật',
+        message: getErrorMessage(error, 'Cập nhật hồ sơ thất bại.'),
+      });
     },
   });
 
@@ -76,10 +80,18 @@ export const useProfile = () => {
   const changePasswordMutation = useMutation({
     mutationFn: (data: ChangePasswordParams) => profileService.changePassword(data),
     onSuccess: (message) => {
-      Alert.alert('Thành công', message || 'Đổi mật khẩu thành công!');
+      showAppNotice({
+        type: 'success',
+        title: 'Thành công',
+        message: message || 'Đổi mật khẩu thành công!',
+      });
     },
     onError: (error: any) => {
-      Alert.alert('Lỗi', getErrorMessage(error, 'Đổi mật khẩu thất bại.'));
+      showAppNotice({
+        type: 'error',
+        title: 'Lỗi',
+        message: getErrorMessage(error, 'Đổi mật khẩu thất bại.'),
+      });
     },
   });
 

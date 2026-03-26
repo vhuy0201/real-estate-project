@@ -6,6 +6,7 @@ import AdminUsersScreen from "../screens/admin/AdminUsersScreen";
 import AdminCategoriesScreen from "../screens/admin/AdminCategoriesScreen";
 import AdminPropertyModerationScreen from "../screens/admin/AdminPropertyModerationScreen";
 import ProfileScreen from "../screens/common/ProfileScreen";
+import AdminPerformanceDashboardScreen from "../screens/admin/AdminPerformanceDashboardScreen";
 
 const Tab = createBottomTabNavigator<AdminTabParamList>();
 
@@ -30,6 +31,16 @@ export default function AdminTabNavigator() {
         },
       }}
     >
+      <Tab.Screen
+        name="AdminDashboard"
+        component={AdminPerformanceDashboardScreen}
+        options={{
+          tabBarLabel: "Tổng quan",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="analytics" size={size} color={color} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="AdminUsers"
         component={AdminUsersScreen}
