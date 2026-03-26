@@ -11,11 +11,9 @@ import { useMyFavorites } from '../hooks/useFavorites';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../store';
 import FavoritesScreen from '../screens/buyer/FavoritesScreen';
+import BuyerAppointmentsScreen from '../screens/buyer/BuyerAppointmentsScreen';
 
 const Tab = createBottomTabNavigator<BuyerTabParamList>();
-
-// Placeholders for Appointments
-const AppointmentsScreenPlaceholder = () => <View className="flex-1 justify-center items-center"><Text>Appointments</Text></View>;
 
 export default function BuyerTabNavigator() {
   const { unreadCountQuery } = useNotifications();
@@ -32,7 +30,6 @@ export default function BuyerTabNavigator() {
         component={FavoritesScreen}
         options={{
           tabBarIcon: ({ color, size }) => <Ionicons name="heart" size={size} color={color} />,
-          // Show count under label (like provided UI)
           tabBarLabel: ({ focused }: any) => (
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <Text style={{ fontSize: 12, fontWeight: '700', color: focused ? '#3B82F6' : '#64748b' }}>
@@ -47,7 +44,7 @@ export default function BuyerTabNavigator() {
           ),
         }}
       />
-      <Tab.Screen name="Appointments" component={AppointmentsScreenPlaceholder} options={{ tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} /> }} />
+      <Tab.Screen name="Appointments" component={BuyerAppointmentsScreen} options={{ tabBarLabel: 'Lịch hẹn', tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} /> }} />
       <Tab.Screen 
         name="Notifications" 
         component={NotificationScreen} 
