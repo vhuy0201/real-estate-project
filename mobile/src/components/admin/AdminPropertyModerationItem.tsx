@@ -18,6 +18,7 @@ type AdminPropertyModerationItemProps = {
   onHide: () => void;
   onRestore: () => void;
   onOpenDetail: () => void;
+  currentTab: string;
 };
 
 function statusLabel(s: PropertyModerationStatus | undefined): string {
@@ -61,6 +62,7 @@ export function AdminPropertyModerationItem({
   onHide,
   onRestore,
   onOpenDetail,
+  currentTab,
 }: AdminPropertyModerationItemProps) {
   const id = String(item._id);
   const title =
@@ -76,7 +78,7 @@ export function AdminPropertyModerationItem({
       : "—";
   const chip = statusChipStyle(item.status);
   const thumb = item.images?.[0] || "https://via.placeholder.com/640x360?text=No+Image";
-  const isPending = item.status === "pending";
+  const isPending = item.status === "pending" || item.status === "available";
   const priceText = useMemo(() => {
     if (item.price == null || Number.isNaN(Number(item.price))) {
       return "—";
@@ -168,7 +170,7 @@ export function AdminPropertyModerationItem({
         </View>
       ) : (
         <View style={styles.actions}>
-          {item.status === "rejected" || (item as any).deleted ? (
+          {currentTab === "hidden" && (item as any).deleted ? (
             <Pressable
               onPress={onRestore}
               disabled={busy}
@@ -183,7 +185,7 @@ export function AdminPropertyModerationItem({
                 </>
               )}
             </Pressable>
-          ) : (
+          ) : currentTab === "approved" && item.status === "approved" && !(item as any).deleted ? (
             <Pressable
               onPress={onHide}
               disabled={busy}
@@ -192,7 +194,7 @@ export function AdminPropertyModerationItem({
               <Ionicons name="eye-off-outline" size={18} color="#fff" />
               <Text style={styles.btnRejectText}>Ẩn bài đăng</Text>
             </Pressable>
-          )}
+          ) : null}
         </View>
       )}
     </View>

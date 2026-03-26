@@ -66,18 +66,25 @@ export const adminPropertyService = {
     const q: any = {};
     if (query.status) {
       // U011: "Chờ duyệt" cần bao gồm cả available + pending
-      if (query.status === "pending") {
-        q.status = { $in: ["pending", "available"] };
-      } else {
-        q.status = query.status;
+      if (query.status === "hidden") {
+      q.deleted = true;
+    } else {
+      q.deleted = false;
+      if (query.status && query.status !== "all") {
+        if (query.status === "pending") {
+          q.status = { $in: ["pending", "available"] };
+        } else {
+          q.status = query.status;
+        }
       }
+    }
     }
 
     const [items, total] = await Promise.all([
       Property.find(q)
         .populate("owner_id", "fullName email")
         .populate("reviewedBy", "fullName email")
-        .sort({ createdAt: -1 })
+        .sort({ updatedAt: -1 })
         .skip(skip)
         .limit(limit)
         .lean(),
@@ -147,12 +154,6 @@ export const adminPropertyService = {
     if (!property) {
       const err: any = new Error("Property not found");
       err.status = 404;
-      throw err;
-    }
-
-    if (property.status === "available" || property.status === "approved") {
-      const err: any = new Error("Property publicly available, cannot restore");
-      err.status = 400;
       throw err;
     }
 
