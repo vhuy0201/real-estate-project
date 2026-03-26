@@ -21,6 +21,8 @@ import {
   useAdminPropertiesPage,
   ADMIN_PROPERTIES_PAGE_SIZE,
   useAdminPropertyStatusMutation,
+  useAdminHidePropertyMutation,
+  useAdminRestorePropertyMutation,
 } from "../../hooks/useAdminProperties";
 import { AdminPropertyModerationItem } from "../../components/admin/AdminPropertyModerationItem";
 import type { AdminPropertyListRow, AdminPropertyStatusFilter } from "../../types/adminProperty";
@@ -59,10 +61,19 @@ export default function AdminPropertyModerationScreen() {
   } = useAdminPropertiesPage(statusFilter, currentPage);
 
   const statusMutation = useAdminPropertyStatusMutation();
+  const hideMutation = useAdminHidePropertyMutation();
+  const restoreMutation = useAdminRestorePropertyMutation();
+
   const busyId =
-    statusMutation.isPending && statusMutation.variables
+    (statusMutation.isPending && statusMutation.variables
       ? statusMutation.variables.propertyId
-      : null;
+      : null) ||
+    (hideMutation.isPending && hideMutation.variables
+      ? hideMutation.variables.propertyId
+      : null) ||
+    (restoreMutation.isPending && restoreMutation.variables
+      ? restoreMutation.variables
+      : null);
 
   const rows = useMemo(() => data?.data ?? [], [data]);
   const filteredRows = useMemo(() => {
@@ -121,6 +132,43 @@ export default function AdminPropertyModerationScreen() {
     [statusMutation]
   );
 
+  const confirmHide = useCallback(
+    (item: AdminPropertyListRow) => {
+      const id = String(item._id);
+      Alert.alert(
+        "Ẩn bài đăng vi phạm",
+        "Bài đăng này sẽ bị ẩn khỏi hệ thống và người đăng sẽ nhận được thông báo. Bạn có chắc chắn?",
+        [
+          { text: "Hủy", style: "cancel" },
+          {
+            text: "Ẩn",
+            style: "destructive",
+            onPress: () => hideMutation.mutate({ propertyId: id, note: "Vi phạm chính sách hệ thống" }),
+          },
+        ]
+      );
+    },
+    [hideMutation]
+  );
+
+  const confirmRestore = useCallback(
+    (item: AdminPropertyListRow) => {
+      const id = String(item._id);
+      Alert.alert(
+        "Khôi phục bài đăng",
+        "Bạn có chắc chắn muốn khôi phục bài đăng này không?",
+        [
+          { text: "Hủy", style: "cancel" },
+          {
+            text: "Khôi phục",
+            onPress: () => restoreMutation.mutate(id),
+          },
+        ]
+      );
+    },
+    [restoreMutation]
+  );
+
   const renderItem = useCallback(
     ({ item }: { item: AdminPropertyListRow }) => (
       <AdminPropertyModerationItem
@@ -133,10 +181,12 @@ export default function AdminPropertyModerationScreen() {
           })
         }
         onReject={() => confirmReject(item)}
+        onHide={() => confirmHide(item)}
+        onRestore={() => confirmRestore(item)}
         onOpenDetail={() => openDetail(item)}
       />
     ),
-    [busyId, statusMutation, confirmReject, openDetail]
+    [busyId, statusMutation, confirmReject, confirmHide, confirmRestore, openDetail]
   );
 
   if (isLoading && !data) {

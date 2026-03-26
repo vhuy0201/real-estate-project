@@ -422,6 +422,35 @@ export async function notifyPropertyStatus(
   });
 }
 
+// Notification khi Admin ẩn bài đăng
+export async function notifyPropertyHidden(
+  userId: string,
+  propertyTitle: string,
+  propertyId: string,
+  reason?: string
+) {
+  const message = `Bài đăng "${propertyTitle}" của bạn đã bị ẩn do vi phạm.${reason ? ` Lý do: ${reason}` : ""}`;
+  return createNotification(userId, "Bài đăng bị ẩn", message, {
+    type: "property",
+    relatedId: propertyId,
+    actionUrl: `/notifications/properties/${propertyId}`,
+  });
+}
+
+// Notification khi Admin khôi phục bài đăng
+export async function notifyPropertyRestored(
+  userId: string,
+  propertyTitle: string,
+  propertyId: string
+) {
+  const message = `Bài đăng "${propertyTitle}" của bạn đã được khôi phục và có thể hiển thị trở lại.`;
+  return createNotification(userId, "Bài đăng được khôi phục", message, {
+    type: "property",
+    relatedId: propertyId,
+    actionUrl: `/notifications/properties/${propertyId}`,
+  });
+}
+
 // Notification khi agent forward offer cho seller
 export async function notifyOfferForwarded(
   sellerId: string,
