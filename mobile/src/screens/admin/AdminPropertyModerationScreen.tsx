@@ -30,10 +30,18 @@ import { InAppToast } from "../../components/common/InAppToast";
 import { PrettyConfirmModal } from "../../components/common/PrettyConfirmModal";
 
 const STATUS_OPTIONS: { key: AdminPropertyStatusFilter; label: string }[] = [
+<<<<<<< HEAD
+  { key: "pending", label: "CHỜ DUYỆT" },
+  { key: "all", label: "TẤT CẢ" },
+  { key: "approved", label: "ĐÃ DUYỆT" },
+  { key: "rejected", label: "TỪ CHỐI" },
+  { key: "hidden", label: "BỊ ẨN" },
+=======
   { key: "all", label: "TẤT CẢ" },
   { key: "pending", label: "CHỜ DUYỆT" },
   { key: "approved", label: "ĐÃ DUYỆT" },
   { key: "rejected", label: "TỪ CHỐI" },
+>>>>>>> develop
 ];
 
 type Nav = CompositeNavigationProp<
@@ -271,6 +279,8 @@ export default function AdminPropertyModerationScreen() {
                       ? "Không có kết quả phù hợp từ khóa."
                       : statusFilter === "pending"
                         ? "Không có bài nào chờ duyệt."
+                        : statusFilter === "hidden"
+                        ? "Không có bài đăng nào bị ẩn."
                         : "Không có bài đăng phù hợp bộ lọc."}
                   </Text>
                 </View>

@@ -64,11 +64,19 @@ export const adminPropertyService = {
     const limit = Number(query.limit || 10);
     const skip = (page - 1) * limit;
     const q: any = {};
+<<<<<<< HEAD
+    if (query.status === "hidden") {
+      q.deleted = true;
+    } else {
+      q.deleted = false;
+      if (query.status && query.status !== "all") {
+=======
     if (query.status) {
       // U011: "Chờ duyệt" cần bao gồm cả available + pending
       if (query.status === "pending") {
         q.status = { $in: ["pending", "available"] };
       } else {
+>>>>>>> develop
         q.status = query.status;
       }
     }
@@ -109,9 +117,6 @@ export const adminPropertyService = {
     }
 
     property.deleted = true;
-    if (property.status !== "rejected") {
-      property.status = "rejected" as any;
-    }
     property.reviewedBy = new mongoose.Types.ObjectId(adminId);
     property.reviewedAt = new Date();
     if (note) {
@@ -161,9 +166,6 @@ export const adminPropertyService = {
     }
 
     property.deleted = false;
-    if (property.status === "rejected") {
-      property.status = "available" as any;
-    }
     (property as any).hiddenNote = undefined;
     await property.save();
 

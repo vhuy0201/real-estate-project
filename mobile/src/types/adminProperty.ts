@@ -39,4 +39,5 @@ export type AdminPropertyStatusFilter =
   | "all"
   | "pending"
   | "approved"
-  | "rejected";
+  | "rejected"
+  | "hidden";
