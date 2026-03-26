@@ -7,13 +7,13 @@ import {
   ScrollView,
   Pressable,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { useGetSellerAssignments, useAcceptAssignment, useRejectAssignment } from '../../hooks/useAssignment';
 import { AssignmentRequestList } from '../../components/assignment/AssignmentRequestList';
+import { showAppNotice } from '../../utils/appNotice';
 
 type StatusFilter = 'pending' | 'accepted' | 'rejected' | 'cancelled' | 'all';
 
@@ -41,12 +41,16 @@ export const HandleAssignmentScreen: React.FC = () => {
     async (assignmentId: string) => {
       try {
         await mutateAcceptAssignment(assignmentId);
-        Alert.alert('Thành công', 'Yêu cầu đã được chấp nhận. Agent sẽ quản lý property.');
+        showAppNotice({
+          type: 'success',
+          title: 'Thành công',
+          message: 'Yêu cầu đã được chấp nhận. Agent sẽ quản lý property.',
+        });
         queryClient.invalidateQueries({ queryKey: ['sellerAssignments'] });
       } catch (err) {
         const message =
           err instanceof Error ? err.message : 'Lỗi khi chấp nhận yêu cầu';
-        Alert.alert('Lỗi', message);
+        showAppNotice({ type: 'error', title: 'Lỗi', message });
       }
     },
     [mutateAcceptAssignment, queryClient],
@@ -56,12 +60,12 @@ export const HandleAssignmentScreen: React.FC = () => {
     async (assignmentId: string, reason: string) => {
       try {
         await mutateRejectAssignment({ assignmentId, reason });
-        Alert.alert('Thành công', 'Yêu cầu đã được từ chối.');
+        showAppNotice({ type: 'success', title: 'Thành công', message: 'Yêu cầu đã được từ chối.' });
         queryClient.invalidateQueries({ queryKey: ['sellerAssignments'] });
       } catch (err) {
         const message =
           err instanceof Error ? err.message : 'Lỗi khi từ chối yêu cầu';
-        Alert.alert('Lỗi', message);
+        showAppNotice({ type: 'error', title: 'Lỗi', message });
       }
     },
     [mutateRejectAssignment, queryClient],

@@ -64,7 +64,14 @@ export const adminPropertyService = {
     const limit = Number(query.limit || 10);
     const skip = (page - 1) * limit;
     const q: any = {};
-    if (query.status) q.status = query.status;
+    if (query.status) {
+      // U011: "Chờ duyệt" cần bao gồm cả available + pending
+      if (query.status === "pending") {
+        q.status = { $in: ["pending", "available"] };
+      } else {
+        q.status = query.status;
+      }
+    }
 
     const [items, total] = await Promise.all([
       Property.find(q)

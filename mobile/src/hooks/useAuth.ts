@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
 import { authService, LoginParams, RegisterParams, VerifyEmailParams, ResendOtpParams } from '../services/authService';
 import { setCredentials } from '../store/auth/authSlice';
-import { Alert } from 'react-native';
+import { showAppNotice } from '../utils/appNotice';
 
 export const useAuth = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export const useAuth = () => {
     onSuccess: handleAuthSuccess,
     onError: (error: any) => {
       const message = error?.response?.data?.message || 'Login failed! Please check your credentials.';
-      Alert.alert('Error', message);
+      showAppNotice({ type: 'error', title: 'Lỗi', message });
     }
   });
 
@@ -43,7 +43,7 @@ export const useAuth = () => {
             : null;
       const message =
         (typeof apiMsg === 'string' && apiMsg) || netMsg || error?.message || 'Đăng ký thất bại.';
-      Alert.alert('Lỗi', message);
+      showAppNotice({ type: 'error', title: 'Lỗi', message });
     }
   });
 
@@ -52,18 +52,22 @@ export const useAuth = () => {
     onSuccess: handleAuthSuccess,
     onError: (error: any) => {
       const message = error?.response?.data?.message || 'Verification failed! Invalid OTP.';
-      Alert.alert('Error', message);
+      showAppNotice({ type: 'error', title: 'Lỗi', message });
     }
   });
 
   const resendOtpMutation = useMutation({
     mutationFn: (data: ResendOtpParams) => authService.resendOtp(data),
     onSuccess: () => {
-      Alert.alert('Success', 'A new OTP has been sent to your email.');
+      showAppNotice({
+        type: 'success',
+        title: 'Thành công',
+        message: 'Đã gửi lại OTP mới vào email của bạn.',
+      });
     },
     onError: (error: any) => {
       const message = error?.response?.data?.message || 'Failed to resend OTP.';
-      Alert.alert('Error', message);
+      showAppNotice({ type: 'error', title: 'Lỗi', message });
     }
   });
 
@@ -72,7 +76,7 @@ export const useAuth = () => {
     onSuccess: handleAuthSuccess,
     onError: (error: any) => {
       const message = error?.response?.data?.message || 'Google Login failed!';
-      Alert.alert('Error', message);
+      showAppNotice({ type: 'error', title: 'Lỗi', message });
     }
   });
 

@@ -37,6 +37,17 @@ export const getTopAgents = async (req: Request, res: Response) => {
   }
 };
 
+export const getTopSellers = async (req: Request, res: Response) => {
+  try {
+    const limit = Number(req.query.limit) || 10;
+    const data = await reportService.getTopSellers(limit);
+
+    return successResponse(req, res, "reports.top_sellers_success", data);
+  } catch (error: any) {
+    return errorResponse(req, res, error.message || "reports.top_sellers_error", 500);
+  }
+};
+
 export const getUserRolesSummary = async (req: Request, res: Response) => {
   try {
     const data = await reportService.getUserRolesSummary();

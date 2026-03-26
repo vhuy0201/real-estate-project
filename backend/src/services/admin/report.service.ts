@@ -170,6 +170,41 @@ export const getTopAgents = async (limit: number) => {
   return result;
 };
 
+export const getTopSellers = async (limit: number) => {
+  const result = await Deal.aggregate([
+    { $match: { status: "completed" } },
+    {
+      $group: {
+        _id: "$seller_id",
+        totalDeals: { $sum: 1 },
+        totalValue: { $sum: "$amounts.agreed_price" },
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "_id",
+        foreignField: "_id",
+        as: "seller",
+      },
+    },
+    { $unwind: "$seller" },
+    {
+      $project: {
+        seller_id: "$seller._id",
+        fullName: "$seller.fullName",
+        email: "$seller.email",
+        totalDeals: 1,
+        totalValue: 1,
+      },
+    },
+    { $sort: { totalDeals: -1, totalValue: -1 } },
+    { $limit: limit },
+  ]);
+
+  return result;
+};
+
 
 export const getUserRolesSummary = async () => {
   const [buyers, sellers, agents, admins] = await Promise.all([

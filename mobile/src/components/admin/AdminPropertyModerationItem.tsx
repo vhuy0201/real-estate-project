@@ -130,13 +130,13 @@ export function AdminPropertyModerationItem({
           <View style={styles.bottomRow}>
             <Text style={styles.idText}>#{id.slice(-6).toUpperCase()}</Text>
             <Pressable onPress={onOpenDetail} style={styles.detailsBtn}>
-              <Text style={styles.detailsBtnText}>VIEW DETAILS</Text>
+              <Text style={styles.detailsBtnText}>XEM CHI TIẾT</Text>
               <Ionicons name="chevron-forward" size={14} color="#fff" />
             </Pressable>
           </View>
           {!isPending ? (
             <Text style={styles.hint}>
-              Bài đăng đã xử lý. Chạm VIEW DETAILS để xem thêm.
+              Bài đăng đã xử lý. Chạm XEM CHI TIẾT để xem thêm.
             </Text>
           ) : null}
         </View>

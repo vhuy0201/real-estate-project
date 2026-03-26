@@ -7,7 +7,6 @@ import {
   Pressable,
   ActivityIndicator,
   SafeAreaView,
-  Alert,
   RefreshControl,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,6 +15,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useGetAgentOffers, useForwardOffer } from "../../hooks/useOffer";
 import type { OfferStatus } from "../../types/offer";
 import { OfferListForAgent } from "../../components/offer/OfferListForAgent";
+import { showAppNotice } from "../../utils/appNotice";
 
 type StatusFilter = OfferStatus | "all";
 
@@ -46,11 +46,15 @@ export default function AgentOfferScreen() {
     async (offerId: string) => {
       try {
         await mutateForwardOffer(offerId);
-        Alert.alert("Thành công", "Offer đã được forward cho seller.");
+        showAppNotice({
+          type: "success",
+          title: "Thành công",
+          message: "Offer đã được chuyển cho seller.",
+        });
         queryClient.invalidateQueries({ queryKey: ["agentOffers"] });
       } catch (err) {
         const message = err instanceof Error ? err.message : "Lỗi khi forward offer";
-        Alert.alert("Lỗi", message);
+        showAppNotice({ type: "error", title: "Lỗi", message });
       }
     },
     [mutateForwardOffer, queryClient],
