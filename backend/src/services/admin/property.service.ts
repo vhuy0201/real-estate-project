@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Property from "../../models/property.model";
-import { notifyPropertyStatus } from "../../utils/notificationHelper";
+import { notifyPropertyStatus, notifyPropertyHidden, notifyPropertyRestored } from "../../utils/notificationHelper";
 
 export type ApproveStatus = "approved" | "rejected";
 
@@ -112,6 +112,20 @@ export const adminPropertyService = {
     }
     await property.save();
 
+    try {
+      const propertyTitle = property.title.vi || property.title.en;
+      if (property.owner_id) {
+        await notifyPropertyHidden(
+          property.owner_id.toString(),
+          propertyTitle,
+          propertyId,
+          note
+        );
+      }
+    } catch (error) {
+      console.error("Failed to notify hide property", error);
+    }
+
     return { id: property._id, deleted: property.deleted, status: property.status, hiddenNote: (property as any).hiddenNote };
   },
 
@@ -145,6 +159,19 @@ export const adminPropertyService = {
     }
     (property as any).hiddenNote = undefined;
     await property.save();
+
+    try {
+      const propertyTitle = property.title.vi || property.title.en;
+      if (property.owner_id) {
+        await notifyPropertyRestored(
+          property.owner_id.toString(),
+          propertyTitle,
+          propertyId
+        );
+      }
+    } catch (error) {
+      console.error("Failed to notify restore property", error);
+    }
 
     return { id: property._id, deleted: property.deleted, status: property.status };
   },
