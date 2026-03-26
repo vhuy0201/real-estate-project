@@ -4,6 +4,7 @@ import { roleCheck } from "../../../middlewares/roleCheck.middleware";
 import {
   createAppointment,
   getMyAppointments,
+  getAppointmentDetail,
   cancelAppointment,
 } from "../../../controllers/client/buyer/appointment.controller";
 
@@ -11,6 +12,7 @@ const router = express.Router();
 
 router.post("/", verifyToken, roleCheck("buyer"), createAppointment);
 router.get("/", verifyToken, roleCheck("buyer"), getMyAppointments);
+router.get("/:id", verifyToken, roleCheck("buyer"), getAppointmentDetail);
 router.patch("/:id/cancel", verifyToken, roleCheck("buyer"), cancelAppointment);
 
 export default router;

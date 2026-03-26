@@ -46,3 +46,22 @@ export async function patchAdminPropertyStatus(
 ): Promise<void> {
   await api.patch(`/admin/properties/${propertyId}/status`, { status });
 }
+
+/**
+ * PATCH /admin/properties/:id/hide — body { note?: string }
+ */
+export async function patchAdminPropertyHide(
+  propertyId: string,
+  note?: string
+): Promise<void> {
+  await api.patch(`/admin/properties/${propertyId}/hide`, { note });
+}
+
+/**
+ * PATCH /admin/properties/:id/restore
+ */
+export async function patchAdminPropertyRestore(
+  propertyId: string
+): Promise<void> {
+  await api.patch(`/admin/properties/${propertyId}/restore`);
+}

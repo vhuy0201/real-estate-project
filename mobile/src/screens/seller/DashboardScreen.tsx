@@ -95,7 +95,7 @@ export default function DashboardScreen() {
 
           <Pressable 
             style={styles.gridItem}
-            onPress={() => navigation.navigate('AssignmentList')}
+            onPress={() => navigation.navigate('SellerAgentMain', { screen: 'HandleAssignment' } as any)}
           >
             <View style={[styles.iconBox, { backgroundColor: '#fef3c7' }]}>
               <Ionicons name="document-text" size={28} color="#d97706" />
@@ -129,11 +129,11 @@ export default function DashboardScreen() {
             <Text style={styles.gridText}>{isAgent ? 'BĐS đang quản lý' : 'BĐS của tôi'}</Text>
           </Pressable>
 
-          <Pressable style={styles.gridItem}>
+          <Pressable style={styles.gridItem} onPress={() => navigation.navigate('AgentAppointments')}>
             <View style={[styles.iconBox, { backgroundColor: '#faf5ff' }]}>
-              <Ionicons name="analytics" size={28} color="#a855f7" />
+              <Ionicons name="calendar-outline" size={28} color="#a855f7" />
             </View>
-            <Text style={styles.gridText}>Báo cáo</Text>
+            <Text style={styles.gridText}>Quản lý lịch hẹn</Text>
           </Pressable>
         </View>
 

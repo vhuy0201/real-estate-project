@@ -73,6 +73,25 @@ export const getMyAppointments = async (req: AuthenticatedRequest, res: Response
   }
 };
 
+export const getAppointmentDetail = async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const buyerId = req.user?.id || req.user?._id;
+    if (!buyerId) {
+      return errorResponse(req, res, "Unauthorized", 401);
+    }
+
+    const { id } = req.params;
+    if (!id) {
+      return errorResponse(req, res, "Appointment ID không hợp lệ", 400);
+    }
+
+    const appointment = await appointmentService.getAppointmentById(String(id), String(buyerId));
+    return successResponse(req, res, "Lấy chi tiết lịch hẹn thành công", appointment);
+  } catch (error: any) {
+    return errorResponse(req, res, error.message || "Server error", error.status || 500);
+  }
+};
+
 export const cancelAppointment = async (req: AuthenticatedRequest, res: Response) => {
   try {
     const buyerId = req.user?.id || req.user?._id;

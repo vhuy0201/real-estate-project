@@ -2,6 +2,8 @@ import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tansta
 import {
   fetchAdminProperties,
   patchAdminPropertyStatus,
+  patchAdminPropertyHide,
+  patchAdminPropertyRestore,
 } from "../services/adminPropertyService";
 import type { AdminPropertyStatusFilter } from "../types/adminProperty";
 
@@ -63,6 +65,33 @@ export function useAdminPropertyStatusMutation(
     },
     onError: (err) => {
       options?.onErrorMessage?.(mutationErrorMessage(err));
+    },
+  });
+}
+
+export function useAdminHidePropertyMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ propertyId, note }: { propertyId: string; note?: string }) =>
+      patchAdminPropertyHide(propertyId, note),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "properties"] });
+    },
+    onError: (err) => {
+      Alert.alert("Lỗi", mutationErrorMessage(err));
+    },
+  });
+}
+
+export function useAdminRestorePropertyMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (propertyId: string) => patchAdminPropertyRestore(propertyId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin", "properties"] });
+    },
+    onError: (err) => {
+      Alert.alert("Lỗi", mutationErrorMessage(err));
     },
   });
 }

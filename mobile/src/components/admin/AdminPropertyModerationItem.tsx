@@ -15,6 +15,8 @@ type AdminPropertyModerationItemProps = {
   busy: boolean;
   onApprove: () => void;
   onReject: () => void;
+  onHide: () => void;
+  onRestore: () => void;
   onOpenDetail: () => void;
 };
 
@@ -56,6 +58,8 @@ export function AdminPropertyModerationItem({
   busy,
   onApprove,
   onReject,
+  onHide,
+  onRestore,
   onOpenDetail,
 }: AdminPropertyModerationItemProps) {
   const id = String(item._id);
@@ -162,7 +166,35 @@ export function AdminPropertyModerationItem({
             <Text style={styles.btnRejectText}>Từ chối</Text>
           </Pressable>
         </View>
-      ) : null}
+      ) : (
+        <View style={styles.actions}>
+          {item.status === "rejected" || (item as any).deleted ? (
+            <Pressable
+              onPress={onRestore}
+              disabled={busy}
+              style={[styles.btn, styles.btnApprove, busy && styles.btnDisabled]}
+            >
+              {busy ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <>
+                  <Ionicons name="refresh-circle" size={18} color="#fff" />
+                  <Text style={styles.btnApproveText}>Khôi phục</Text>
+                </>
+              )}
+            </Pressable>
+          ) : (
+            <Pressable
+              onPress={onHide}
+              disabled={busy}
+              style={[styles.btn, styles.btnReject, busy && styles.btnDisabled]}
+            >
+              <Ionicons name="eye-off-outline" size={18} color="#fff" />
+              <Text style={styles.btnRejectText}>Ẩn bài đăng</Text>
+            </Pressable>
+          )}
+        </View>
+      )}
     </View>
   );
 }

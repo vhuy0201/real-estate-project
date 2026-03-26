@@ -20,6 +20,8 @@ import {
   useAdminPropertiesPage,
   ADMIN_PROPERTIES_PAGE_SIZE,
   useAdminPropertyStatusMutation,
+  useAdminHidePropertyMutation,
+  useAdminRestorePropertyMutation,
 } from "../../hooks/useAdminProperties";
 import { AdminPropertyModerationItem } from "../../components/admin/AdminPropertyModerationItem";
 import type { AdminPropertyListRow, AdminPropertyStatusFilter } from "../../types/adminProperty";
@@ -62,15 +64,28 @@ export default function AdminPropertyModerationScreen() {
     refetch,
     error,
   } = useAdminPropertiesPage(statusFilter, currentPage);
-
   const statusMutation = useAdminPropertyStatusMutation({
     onSuccessMessage: (message) => setToast({ type: "success", message }),
     onErrorMessage: (message) => setToast({ type: "error", message }),
   });
+  const hideMutation = useAdminHidePropertyMutation();
+  const restoreMutation = useAdminRestorePropertyMutation();
+  const [hideModal, setHideModal] = useState<{ visible: boolean; item?: AdminPropertyListRow }>({
+    visible: false,
+  });
+  const [restoreModal, setRestoreModal] = useState<{ visible: boolean; item?: AdminPropertyListRow }>({
+    visible: false,
+  });
   const busyId =
-    statusMutation.isPending && statusMutation.variables
+    (statusMutation.isPending && statusMutation.variables
       ? statusMutation.variables.propertyId
-      : null;
+      : null) ||
+    (hideMutation.isPending && hideMutation.variables
+      ? hideMutation.variables.propertyId
+      : null) ||
+    (restoreMutation.isPending && restoreMutation.variables
+      ? restoreMutation.variables
+      : null);
 
   const rows = useMemo(() => data?.data ?? [], [data]);
   const filteredRows = useMemo(() => {
@@ -115,12 +130,25 @@ export default function AdminPropertyModerationScreen() {
     },
     []
   );
-
   useEffect(() => {
     if (!toast) return;
     const timer = setTimeout(() => setToast(null), 2200);
     return () => clearTimeout(timer);
   }, [toast]);
+
+  const confirmHide = useCallback(
+    (item: AdminPropertyListRow) => {
+      setHideModal({ visible: true, item });
+    },
+    []
+  );
+
+  const confirmRestore = useCallback(
+    (item: AdminPropertyListRow) => {
+      setRestoreModal({ visible: true, item });
+    },
+    []
+  );
 
   const renderItem = useCallback(
     ({ item }: { item: AdminPropertyListRow }) => (
@@ -134,10 +162,12 @@ export default function AdminPropertyModerationScreen() {
           })
         }
         onReject={() => confirmReject(item)}
+        onHide={() => confirmHide(item)}
+        onRestore={() => confirmRestore(item)}
         onOpenDetail={() => openDetail(item)}
       />
     ),
-    [busyId, statusMutation, confirmReject, openDetail]
+    [busyId, statusMutation, confirmReject, confirmHide, confirmRestore, openDetail]
   );
 
   if (isLoading && !data) {
@@ -306,6 +336,39 @@ export default function AdminPropertyModerationScreen() {
             });
           }
           setRejectModal({ visible: false });
+        }}
+      />
+      <PrettyConfirmModal
+        visible={hideModal.visible}
+        title="Ẩn bài đăng vi phạm"
+        message="Bài đăng sẽ bị ẩn khỏi hệ thống và người đăng nhận được thông báo. Bạn muốn tiếp tục?"
+        confirmText="Ẩn bài"
+        variant="danger"
+        onCancel={() => setHideModal({ visible: false })}
+        onConfirm={() => {
+          if (hideModal.item?._id) {
+            hideMutation.mutate({
+              propertyId: String(hideModal.item._id),
+              note: "Vi phạm chính sách hệ thống",
+            });
+            setToast({ type: "success", message: "Đã ẩn bài đăng thành công." });
+          }
+          setHideModal({ visible: false });
+        }}
+      />
+      <PrettyConfirmModal
+        visible={restoreModal.visible}
+        title="Khôi phục bài đăng"
+        message="Bạn có chắc muốn khôi phục bài đăng này không?"
+        confirmText="Khôi phục"
+        variant="primary"
+        onCancel={() => setRestoreModal({ visible: false })}
+        onConfirm={() => {
+          if (restoreModal.item?._id) {
+            restoreMutation.mutate(String(restoreModal.item._id));
+            setToast({ type: "success", message: "Đã khôi phục bài đăng thành công." });
+          }
+          setRestoreModal({ visible: false });
         }}
       />
     </SafeAreaView>

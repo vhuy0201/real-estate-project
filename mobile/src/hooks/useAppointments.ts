@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createAppointment,
   getMyAppointments,
+  getAppointmentDetail,
   cancelAppointment,
 } from "../services/appointmentService";
 import { showAppNotice } from "../utils/appNotice";
@@ -15,6 +16,15 @@ export function useMyAppointments(params?: {
   return useQuery({
     queryKey: ["buyer-appointments", params],
     queryFn: () => getMyAppointments(params),
+  });
+}
+
+/** Lấy chi tiết lịch hẹn của buyer */
+export function useAppointmentDetails(id: string) {
+  return useQuery({
+    queryKey: ["buyer-appointment-detail", id],
+    queryFn: () => getAppointmentDetail(id),
+    enabled: !!id,
   });
 }
 
