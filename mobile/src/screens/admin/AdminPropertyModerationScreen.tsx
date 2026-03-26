@@ -29,10 +29,11 @@ import type { AdminPropertyListRow, AdminPropertyStatusFilter } from "../../type
 import type { AdminTabParamList, RootStackParamList } from "../../types/navigation";
 
 const STATUS_OPTIONS: { key: AdminPropertyStatusFilter; label: string }[] = [
-  { key: "all", label: "ALL" },
-  { key: "pending", label: "PENDING" },
-  { key: "approved", label: "APPROVED" },
-  { key: "rejected", label: "REJECTED" },
+  { key: "pending", label: "CHỜ DUYỆT" },
+  { key: "all", label: "TẤT CẢ" },
+  { key: "approved", label: "ĐÃ DUYỆT" },
+  { key: "rejected", label: "TỪ CHỐI" },
+  { key: "hidden", label: "BỊ ẨN" },
 ];
 
 type Nav = CompositeNavigationProp<
@@ -289,6 +290,8 @@ export default function AdminPropertyModerationScreen() {
                       ? "No matches for your search."
                       : statusFilter === "pending"
                         ? "Không có bài nào chờ duyệt."
+                        : statusFilter === "hidden"
+                        ? "Không có bài đăng nào bị ẩn."
                         : "Không có bài đăng phù hợp bộ lọc."}
                   </Text>
                 </View>

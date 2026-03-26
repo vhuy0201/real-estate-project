@@ -168,7 +168,7 @@ export function AdminPropertyModerationItem({
         </View>
       ) : (
         <View style={styles.actions}>
-          {item.status === "rejected" || (item as any).deleted ? (
+          {(item as any).deleted ? (
             <Pressable
               onPress={onRestore}
               disabled={busy}
@@ -183,7 +183,7 @@ export function AdminPropertyModerationItem({
                 </>
               )}
             </Pressable>
-          ) : (
+          ) : item.status === "approved" ? (
             <Pressable
               onPress={onHide}
               disabled={busy}
@@ -192,7 +192,7 @@ export function AdminPropertyModerationItem({
               <Ionicons name="eye-off-outline" size={18} color="#fff" />
               <Text style={styles.btnRejectText}>Ẩn bài đăng</Text>
             </Pressable>
-          )}
+          ) : null}
         </View>
       )}
     </View>

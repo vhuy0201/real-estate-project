@@ -64,7 +64,14 @@ export const adminPropertyService = {
     const limit = Number(query.limit || 10);
     const skip = (page - 1) * limit;
     const q: any = {};
-    if (query.status) q.status = query.status;
+    if (query.status === "hidden") {
+      q.deleted = true;
+    } else {
+      q.deleted = false;
+      if (query.status && query.status !== "all") {
+        q.status = query.status;
+      }
+    }
 
     const [items, total] = await Promise.all([
       Property.find(q)
@@ -102,9 +109,6 @@ export const adminPropertyService = {
     }
 
     property.deleted = true;
-    if (property.status !== "rejected") {
-      property.status = "rejected" as any;
-    }
     property.reviewedBy = new mongoose.Types.ObjectId(adminId);
     property.reviewedAt = new Date();
     if (note) {
@@ -154,9 +158,6 @@ export const adminPropertyService = {
     }
 
     property.deleted = false;
-    if (property.status === "rejected") {
-      property.status = "available" as any;
-    }
     (property as any).hiddenNote = undefined;
     await property.save();
 
