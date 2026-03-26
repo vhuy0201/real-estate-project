@@ -1,0 +1,14 @@
+{
+  "toast_delete_success": "Xóa thành công",
+  "toast_delete_fail": "Xóa không thành công",
+  "name": "Tên",
+  "comment": "Bình luận",
+  "action": "Chức năng",
+  "view_btn": "Xem",
+  "view_btn_toolTip": "Xem chi tiết",
+  "delete_btn_toolTip": "Xóa bình luận",
+  "delete_btn": "Xóa",
+  "cancel_btn": "Hủy",
+  "delete_comment": "XÓA BÌNH LUẬN",
+  "delete_question": "Bạn có muốn xóa bình luận này không?"
+}

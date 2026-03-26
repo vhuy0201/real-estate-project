@@ -1,0 +1,9 @@
+{
+  "auth": {
+    "unknown_user": "User not identified"
+  },
+  "property": {
+    "create_success": "Property created successfully",
+    "create_failed": "Failed to create property"
+  }
+}

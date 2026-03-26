@@ -1,0 +1,24 @@
+{
+    "findAgents": "Find Agents",
+    "agentList": "Agent List",
+    "status": "Status",
+    "allStatus": "All status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "succesessAssign": "Assign agent successfully",
+    "failAssign": "Assign agent failed",
+    "loading": "Loading...",
+    "assignAgent": "Assign Agent",
+    "noAgents": "No agents found.",
+    "viewDetails": "View Details",
+    "confirmAssign": "Are you sure you want to assign this agent to the property?",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "titileConfirmAssign": "Confirm Assign Agent",
+    "Agent Assignment": "Agent Assignment",
+    "searchPlaceholder": "Search by agent name or email",
+    "noAgentAssigned": "No agent assigned to this property.",
+    "noAgentFound": "No agents found matching your criteria."
+
+ 
+}

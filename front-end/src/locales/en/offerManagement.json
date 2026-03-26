@@ -1,0 +1,200 @@
+{
+  "title": "Offer Management",
+  "createTitle": "Create Offer",
+  "subtitle": "Create and track your real estate purchase proposals",
+  "tabs": {
+    "createNew": "Create New Offer",
+    "offerList": "Offer List",
+    "offerHistory": "Offer History"
+  },
+  "form": {
+    "title": "Offer Information",
+    "proposedPrice": "Proposed Price *",
+    "enterProposedPrice": "Enter proposed price",
+    "enterProposedPricePlaceholder": "Enter proposed price (VND)",
+    "cannotSendNoAgent": "Cannot send (No Agent)",
+    "sendProposalNow": "Send proposal now ✨✨",
+    "validityPeriod": "Validity Period *",
+    "validityPeriodHelper": "Offer will automatically expire after this date",
+    "notes": "Notes (Optional)",
+    "notesPlaceholder": "Add notes or special conditions (e.g., payment capability, desired house viewing time...)",
+    "characters": "characters",
+    "sendOffer": "Send Offer",
+    "sending": "Sending...",
+    "priceRequired": "Proposed price is required",
+    "priceInvalid": "Price must be greater than 0",
+    "dateRequired": "Validity period is required",
+    "dateInvalid": "Please select a valid date",
+    "datePast": "Validity period must be in the future",
+    "notesMaxLength": "Notes cannot exceed 500 characters"
+  },
+  "propertyInfo": {
+    "listedPrice": "Listed price:",
+    "area": "Area:",
+    "bedrooms": "Bedrooms:",
+    "bathrooms": "Bathrooms:",
+    "yearBuilt": "Year built:",
+    "floors": "Floors",
+    "tip": "Suggest a reasonable price (80-95% of listed price) to increase the likelihood of acceptance",
+    "cannotCreateOffer": "⚠️ Cannot create offer",
+    "cannotCreateOfferMessage": "This property does not have an assigned agent. Please contact us or choose another property with an agent to create an offer.",
+    "importantNote": "Important note:",
+    "agentReviewTip": "Agent will review and forward to the owner",
+    "cancelOfferTip": "Offer can be canceled while pending"
+  },
+  "list": {
+    "noOffers": "No offers found",
+    "proposedPrice": "Proposed price",
+    "note": "Note",
+    "created": "Created:",
+    "validUntil": "Valid until:",
+    "cancelOffer": "Cancel offer",
+    "status": {
+      "pending": "Pending",
+      "forwarded_to_seller": "Forwarded to Seller",
+      "seller_reviewing": "Seller Reviewing",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "cancelled": "Cancelled"
+    },
+    "filter": {
+      "all": "All",
+      "filterByStatus": "Filter by status"
+    },
+    "cancelConfirm": "Are you sure you want to cancel this offer?",
+    "cancelSuccess": "Offer cancelled successfully",
+    "cancelError": "Failed to cancel offer",
+    "cancelNotAllowed": "Only pending offers can be cancelled",
+    "rejectionReasonLabel": "Rejection reason:",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "processing": "Processing..."
+  },
+  "success": {
+    "offerCreated": "Offer created successfully!",
+    "offerCreatedMessage": "Your offer has been submitted and is pending review."
+  },
+  "error": {
+    "createFailed": "Failed to create offer",
+    "loadFailed": "Failed to load offers",
+    "propertyNotFound": "Property not found",
+    "loginRequired": "Please login to create an offer",
+    "onlyBuyerCanCreate": "Only buyers can create offers",
+    "noPermission": "You don't have permission to access this page"
+  },
+  "sellerList": {
+    "title": "Offer Management",
+    "subtitle": "Review and decide on real estate purchase proposals",
+    "noOffers": "No offers",
+    "buyerInfo": "Buyer Information",
+    "agentInfo": "Agent Information",
+    "listedPrice": "Listed Price",
+    "viewDetail": "View Detail",
+    "accept": "Accept",
+    "reject": "Reject",
+    "acceptOffer": "Accept Offer",
+    "rejectOffer": "Reject Offer",
+    "acceptConfirm": "Are you sure you want to accept this offer? A Deal will be automatically created after acceptance.",
+    "rejectConfirm": "Are you sure you want to reject this offer?",
+    "rejectionReason": "Rejection Reason",
+    "rejectionReasonPlaceholder": "Enter rejection reason (optional)",
+    "acceptSuccess": "Offer accepted successfully!",
+    "acceptError": "Failed to accept offer",
+    "acceptProcessing": "⏳ Processing offer acceptance...",
+    "dealCreatedInfo": "🎉 Deal has been created! You can view it in the Deals section.",
+    "processing": "Processing...",
+    "rejectSuccess": "Offer rejected successfully",
+    "rejectError": "Failed to reject offer",
+    "rejectReasonRequired": "Please provide a rejection reason",
+    "rejectDialogTitle": "Reject Offer",
+    "rejectDialogDescription": "Please provide a reason for rejecting this offer. This will be shared with the buyer.",
+    "confirmReject": "Confirm Rejection",
+    "acceptDialogTitle": "Accept Offer",
+    "confirmAccept": "Confirm Accept",
+    "cancel": "Cancel",
+    "filterByProperty": "Filter by Property",
+    "tableView": "Table",
+    "listView": "List",
+    "table": {
+      "property": "Property",
+      "buyer": "Buyer",
+      "amount": "Proposed Amount",
+      "status": "Status",
+      "createdAt": "Created At",
+      "actions": "Actions",
+      "offers": "offers"
+    },
+    "unknownBuyer": "Unknown"
+  },
+  "agentList": {
+    "title": "Offer Management",
+    "subtitle": "Review and forward real estate purchase proposals to Seller",
+    "noOffers": "No offers",
+    "buyerInfo": "Buyer Information",
+    "sellerInfo": "Seller Information",
+    "listedPrice": "Listed Price",
+    "viewDetail": "View Detail",
+    "forward": "Forward",
+    "forwardOffer": "Forward Offer",
+    "forwardConfirm": "Are you sure you want to forward this offer to Seller?",
+    "forwardSuccess": "Offer forwarded successfully! Seller has been notified.",
+    "forwardError": "Failed to forward offer",
+    "forwardedAt": "Forwarded at"
+  },
+  "back": "Back",
+  "detail": {
+    "title": "Offer Details",
+    "back": "Back",
+    "buyerInfo": {
+      "title": "Buyer Information",
+      "noName": "No name",
+      "noEmail": "No email",
+      "email": "Email",
+      "phone": "Phone",
+      "noBuyerInfo": "No buyer information"
+    },
+    "amount": {
+      "title": "Proposed Price"
+    },
+    "deadline": {
+      "title": "Validity Period",
+      "noDeadline": "Not set"
+    },
+    "note": {
+      "title": "Note",
+      "noNote": "No note"
+    },
+    "additional": {
+      "createdAt": "Created at",
+      "updatedAt": "Last updated",
+      "reviewedAt": "Reviewed at"
+    },
+    "rejectionReason": {
+      "title": "Rejection Reason"
+    },
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "cancelled": "Cancelled",
+      "forwarded_to_seller": "Forwarded to Seller",
+      "seller_reviewing": "Seller Reviewing"
+    },
+    "errors": {
+      "noId": "Offer ID not found",
+      "noPermission": "You don't have permission to view this page",
+      "loadFailed": "Failed to load offer information",
+      "notFound": "Offer information not found"
+    },
+    "propertyInfo": {
+      "title": "Property Information",
+      "listedPrice": "Listed Price"
+    },
+    "sellerInfo": {
+      "title": "Seller Information"
+    },
+    "agentInfo": {
+      "title": "Agent Information"
+    }
+  }
+}

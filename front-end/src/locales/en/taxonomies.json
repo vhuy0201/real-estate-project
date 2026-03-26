@@ -1,0 +1,21 @@
+{
+    "taxonomies": "Taxonomies",
+    "cities": "Cities",
+    "types": "Types",
+    "categories": "Categories",
+    "features": "Features",
+    "name": "Name",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "action": "Action",
+    "cancel": "Cancel",
+    "save": "Save",
+    "add": "Add",
+    "updateSuccessful": "Update successful",
+    "addSuccessful": "Add Successful",
+    "error": "Error",
+    "deleteSuccessful": "Delete successful",
+    "deleteFailure": "Delete failure",
+    "areyoudelete": "Are you sure you want to delete ?"
+}

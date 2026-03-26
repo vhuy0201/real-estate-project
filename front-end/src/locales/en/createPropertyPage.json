@@ -1,0 +1,142 @@
+{
+    "createProperty": {
+        "step": "Step",
+        "subtitle": "List your property in minutes",
+        "pageTitle": "Create New Property",
+        "steps": {
+            "1": "Property Info",
+            "2": "Images"
+        },
+        "alerts": {
+            "missingRequired": "Please fill in all required information (City, Category, Transaction Type)!",
+            "createSuccess": "Property created successfully!",
+            "createError": "Error creating property",
+            "startNew": "You can start creating a new listing!"
+        },
+        "buttons": {
+            "next": "Next",
+            "back": "Back",
+            "submit": "Submit",
+            "upload": "Upload Images",
+            "viewList": "View My Listings",
+            "createAnother": "Create Another Listing",
+            "createNew": "Create New Listing"
+        },
+        "fields": {
+            "title": "Title",
+            "price": "Price",
+            "description": "Description",
+            "address": "Address",
+            "bathrooms": "Bathrooms",
+            "bedrooms": "Bedrooms",
+            "area": "Area",
+            "unit": "Unit",
+            "floors": "Floors",
+            "yearBuilt": "Year Built",
+            "city": "City",
+            "category": "Category",
+            "type": "Transaction Type",
+            "coordinates": "Coordinates"
+        },
+        "status": {
+            "sending": "Sending data...",
+            "loading": "Loading...",
+            "uploaded": "Uploaded"
+        },
+        "placeholders": {
+            "title": "E.g. Beautiful riverside apartment",
+            "price": "Enter value (e.g. 3,000,000,000)",
+            "description": "Enter detailed description of the property",
+            "address": "House number, street, ward, district...",
+            "area": "E.g. 120",
+            "yearBuilt": "E.g. 2019"
+        },
+        "stepsHeader": {
+            "completed": "✓",
+            "current": "Step {{number}}"
+        },
+        "pageTitle": "Dwello: Create Property"
+    },
+    "formProperty": {
+        "title": "Title",
+        "price": "Price (VND)",
+        "description": "Description",
+        "address": "Address",
+        "bathrooms": "Bathrooms",
+        "bedrooms": "Bedrooms",
+        "city": "City",
+        "district": "District",
+        "ward": "Ward",
+        "category": "Category",
+        "area": "Area",
+        "unit": "Unit",
+        "floors": "Floors",
+        "type": "Transaction Type",
+        "loading": "Loading information...",
+        "continue": "Continue",
+        "errorFetch": "Failed to load property taxonomies",
+        "alertMissing": "Please fill in all required fields!",
+        "formTitle": "Property Information",
+        "formSubtitle": "Fill in the details about your property",
+        "yearBuilt": "Year Built",
+        "placeholder": {
+            "title": "Eg: Riverside homestay",
+            "price": "Eg: 10000000",
+            "description": "Enter a short description of the property...",
+            "bathrooms": "Eg: 2",
+            "bedrooms": "Eg: 3",
+            "area": "Eg: 100",
+            "floors": "Eg: 2",
+            "yearBuilt": "Eg: 2020"
+        },
+        "select": {
+            "city": "Select city",
+            "category": "Select category",
+            "type": "Select transaction type",
+            "district": "Select district",
+            "ward": "Select ward"
+        },
+        "units": {
+            "m2": "m²",
+            "ft2": "ft²"
+        },
+        "warnings": {
+            "required": "This field is required",
+            "fetchFail": "Failed to load property taxonomies"
+        },
+        "apartmentInfo": {
+            "floorNumber": "Tầng căn hộ",
+            "buildingBlock": "Tháp / Khu",
+            "apartmentNumber": "Số căn hộ",
+            "placeholder": {
+                "floorNumber": "VD: 12A",
+                "buildingBlock": "VD: A1, B2",
+                "apartmentNumber": "VD: 1205"
+            }
+        },
+        "autoDescription": "Auto Description"
+    },
+    "selectFeatures": {
+        "title": "Select Property Features",
+        "instruction": "Choose property features (tap to select)",
+        "selected": "Selected: {{count}} features",
+        "loading": "Loading features...",
+        "continue": "Continue",
+        "back": "Back",
+        "errorFetch": "Failed to load features. Please try again!"
+    },
+    "selectImages": {
+        "title": "Select Property Images",
+        "subtitle": "Selected: {{count}}/10 images",
+        "dragText": "Drag and drop images here",
+        "chooseFile": "Browse Files",
+        "alertEmpty": "Please select at least one image!",
+        "finish": "Complete & Submit",
+        "submitting": "Submitting...",
+        "maxFiles": "Max 10 files",
+        "preview": "Preview",
+        "limitReached": "Limit reached",
+        "primary": "Main",
+        "remove": "Remove image"
+    }
+}

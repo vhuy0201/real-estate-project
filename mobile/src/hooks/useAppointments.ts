@@ -1,0 +1,57 @@
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Alert } from "react-native";
+import {
+  createAppointment,
+  getMyAppointments,
+  cancelAppointment,
+} from "../services/appointmentService";
+
+/** Lấy danh sách lịch hẹn của buyer */
+export function useMyAppointments(params?: {
+  page?: number;
+  limit?: number;
+  status?: string;
+}) {
+  return useQuery({
+    queryKey: ["buyer-appointments", params],
+    queryFn: () => getMyAppointments(params),
+  });
+}
+
+/** Đặt lịch hẹn xem nhà */
+export function useCreateAppointment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: createAppointment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["buyer-appointments"] });
+      Alert.alert("Thành công", "Đặt lịch hẹn xem nhà thành công! Agent sẽ sớm phản hồi.");
+    },
+    onError: (error: any) => {
+      const msg =
+        error?.response?.data?.message ||
+        "Không thể đặt lịch hẹn. Vui lòng thử lại.";
+      Alert.alert("Lỗi", msg);
+    },
+  });
+}
+
+/** Hủy lịch hẹn */
+export function useCancelAppointment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => cancelAppointment(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["buyer-appointments"] });
+      Alert.alert("Thành công", "Đã hủy lịch hẹn.");
+    },
+    onError: (error: any) => {
+      const msg =
+        error?.response?.data?.message ||
+        "Không thể hủy lịch hẹn. Vui lòng thử lại.";
+      Alert.alert("Lỗi", msg);
+    },
+  });
+}

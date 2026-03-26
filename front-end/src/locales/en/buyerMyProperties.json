@@ -1,0 +1,30 @@
+{
+  "pageTitle": "Dewllo | My Properties",
+  "title": "My Properties",
+  "subtitle": "Review every home you have purchased or currently rent through Dwello.",
+  "searchPlaceholder": "Search by title, address or property type...",
+  "stats": {
+    "totalProperties": "Total properties",
+    "totalValue": "Total transaction value",
+    "lastUpdate": "Last update"
+  },
+  "alerts": {
+    "onlyBuyer": "This feature is only available for Buyer accounts.",
+    "fetchFailed": "Unable to load your purchased or rented properties.",
+    "empty": "No purchased or rented properties were found."
+  },
+  "labels": {
+    "transactionCode": "Transaction #{{code}}",
+    "createdAt": "Created",
+    "updatedAt": "Updated"
+  },
+  "cta": {
+    "viewDetails": "View details"
+  },
+  "status": {
+    "completed": "Completed",
+    "sold": "Sold",
+    "rented": "Rented",
+    "leased": "Leased"
+  }
+}

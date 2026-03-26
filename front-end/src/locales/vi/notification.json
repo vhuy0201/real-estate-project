@@ -1,0 +1,12 @@
+{
+  "notification": "Thông báo",
+  "view_all": "Xem tất cả",
+  "no_new_notification": "Không có thông báo mới",
+  "read_all": "Đánh dấu tất cả là đã đọc",
+  "all":"Tất cả",
+  "un_read": "Chưa đọc",
+  "diffMs":"vừa xong",
+  "diffMins":"phút trước",
+  "diffHours":"giờ trước"
+
+}

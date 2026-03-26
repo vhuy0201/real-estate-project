@@ -1,0 +1,21 @@
+{
+  "Property": "Property",
+  "Status": "Status",
+  "Action": "Action",
+  "view_tooltip": "view detail",
+  "Awaiting": "awaiting_contract",
+  "Completed": "completed",
+  "Cancelled": "cancelled",
+  "UnderReview": "contract_under_review",
+  "EscrowPayment": "awaiting_escrow_payment",
+  "EscrowFunded": "escrow_funded",
+  "Property_title": "Property name",
+  "Price": "Price",
+  "Property_alt": "Property",
+  "Property_detail_btn": "View property detail",
+  "loading": "loading...",
+  "Agent":"Agent",
+  "Buyer":"Buyer",
+  "Seller":"Seller",
+  "Back":"Back"
+}

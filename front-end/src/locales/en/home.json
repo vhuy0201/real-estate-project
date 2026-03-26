@@ -1,0 +1,28 @@
+{
+    "titlePage": "Dwello | Real Estate Management Platform",
+    "hero": {
+        "title": "Your home, your future",
+        "subtitle": "Find the best properties around you"
+    },
+    "property": {
+        "status": {
+            "available": "Available",
+            "processing": "Processing"
+        }
+    },
+    "footer": {
+        "appName": "Dwello",
+        "tagline": "Find your perfect home with comfort and trust.",
+        "explore": "Explore",
+        "buy": "Buy",
+        "rent": "Rent",
+        "sell": "Sell",
+        "agents": "Agents",
+        "support": "Support",
+        "helpCenter": "Help Center",
+        "privacyPolicy": "Privacy Policy",
+        "termsOfUse": "Terms of Use",
+        "followUs": "Follow Us",
+        "copyright": "© 2025 Dwello — All rights reserved"
+    }
+}

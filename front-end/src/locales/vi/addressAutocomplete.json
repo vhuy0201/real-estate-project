@@ -1,0 +1,7 @@
+{
+    "addressAutocomplete": {
+        "placeholder": "Nhập địa chỉ bất động sản...",
+        "loading": "Đang tải gợi ý...",
+        "notFound": "Không tìm thấy địa chỉ phù hợp"
+    }
+}

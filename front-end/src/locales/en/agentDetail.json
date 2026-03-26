@@ -1,0 +1,18 @@
+{
+  "pageTitle": "Agent Profile",
+  "reviews": "reviews",
+  "soldProperties": "Properties Sold",
+  "activeListings": "Active Listings",
+  "propertiesTab": "Properties Sold/Rented",
+  "reviewsTab": "Client Reviews",
+  "noProperties": "This agent has not completed any property transactions yet",
+  "noReviews": "This agent has not received any reviews yet",
+  "agentNotFound": "Agent not found",
+  "bedrooms": "Beds",
+  "bathrooms": "Baths",
+  "broker": "Agent",
+  "listings": "Listings",
+  "propertiesSold": "Properties Sold",
+  "customerReviews": "Customer Reviews",
+  "noReviewsYet": "This agent has not been reviewed yet"
+}

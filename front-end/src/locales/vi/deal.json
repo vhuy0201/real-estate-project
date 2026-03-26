@@ -1,0 +1,21 @@
+{
+  "Property": "Bất động sản",
+  "Status": "Trạng thái",
+  "Action": "Chức năng",
+  "view_tooltip": "xem chi tiết",
+  "Awaiting": "đang chờ hợp đồng",
+  "Completed": "hoàn thành",
+  "Cancelled": "đã hủy",
+  "UnderReview": "đang xem xét hợp đồng",
+  "EscrowPayment": "chờ thanh toán ký quỹ",
+  "EscrowFunded": "đã ký quỹ",
+  "Property_title": "Tên bất động sản",
+  "Price": "Giá",
+  "Property_alt": "Bất động sản",
+  "Property_detail_btn": "Xem chi tiết bất động sản",
+  "loading": "đang tải...",
+  "Agent": "Môi giới",
+  "Buyer": "Người mua",
+  "Seller": "Người bán",
+  "Back":"Trở lại"
+}

@@ -1,0 +1,114 @@
+{
+    "title": "Admin Dashboard",
+    "subtitle": "Overview of system performance and activities",
+    "stats": {
+        "totalUsers": "Total Users",
+        "totalProperties": "Total Properties",
+        "dealsCompleted": "Deals Completed",
+        "totalRevenue": "Total Revenue",
+        "totalLeads": "Total Leads"
+    },
+    "chart": {
+        "title": "Revenue & Deals Chart",
+        "subtitle": "Track monthly trends",
+        "revenue": "Revenue (VND)",
+        "deals": "Number of Deals",
+        "totalRevenue": "Total Revenue",
+        "totalDeals": "Total Deals",
+        "deals_unit": "deals"
+    },
+    "filter": {
+        "year": "Year",
+        "month": "Month",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "apply": "Apply",
+        "reset": "Reset",
+        "filterBy": "Filter by",
+        "byYear": "By Year",
+        "byMonth": "By Month",
+        "byDateRange": "By Date Range",
+        "selectMonth": "Select month",
+        "allMonths": "All months"
+    },
+    "months": {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+    },
+    "monthsShort": {
+        "1": "Jan",
+        "2": "Feb",
+        "3": "Mar",
+        "4": "Apr",
+        "5": "May",
+        "6": "Jun",
+        "7": "Jul",
+        "8": "Aug",
+        "9": "Sep",
+        "10": "Oct",
+        "11": "Nov",
+        "12": "Dec"
+    },
+    "topAgents": {
+        "title": "Top Agents",
+        "noData": "No data available"
+    },
+    "loading": "Loading...",
+    "sidebar": {
+        "appName": "Dwello",
+        "tagline": "Your Home Your Future",
+        "hello": "Hello,",
+        "menu": {
+            "dashboard": "Dashboard",
+            "user": "User",
+            "properties": "Properties",
+            "contracts": "Contracts",
+            "deals": "Deals",
+            "payments": "Payments",
+            "reviews": "Reviews",
+            "taxonomies": "Taxonomies",
+            "logout": "Logout"
+        },
+        "userSubmenu": {
+            "admin": "Admin",
+            "buyer": "Buyer",
+            "seller": "Seller",
+            "agent": "Agent"
+        },
+        "propertiesSubmenu": {
+            "sold": "Sold",
+            "approved": "Approved",
+            "pending": "Pending",
+            "rejected": "Rejected"
+        },
+        "contractsSubmenu": {
+            "approved": "Approved",
+            "superseded": "Superseded",
+            "rejected": "Rejected"
+        },
+        "dealsSubmenu": {
+            "awaiting": "Awaiting",
+            "underReview": "UnderReview",
+            "escrowPayment": "EscrowPayment",
+            "escrowFunded": "EscrowFunded",
+            "completed": "Completed",
+            "cancelled": "Cancelled"
+        },
+        "paymentsSubmenu": {
+            "completed": "Completed",
+            "pending": "Pending",
+            "canceled": "Canceled"
+        }
+    }
+}
+

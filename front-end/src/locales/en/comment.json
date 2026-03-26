@@ -1,0 +1,14 @@
+{
+  "toast_error_review": "You have to rent or buy to be able to comment.",
+  "toast_error_comment": "You're only allowed one comment.",
+  "toast_success_edit": "edit comment successfully.",
+  "toast_success_comment": "comment successfully.",
+  "toast_success_delete_comment": "You have successfully deleted your comment.",
+  "toast_error_delete_comment": "Failed to delete comment.",
+  "enter_comment": "enter comment...",
+  "cancel_btn": "Cancel",
+  "update": "Update",
+  "comment": "Comment",
+  "no_comment": "No comments available",
+  "reviewAndComment": "Review & Comment"
+}

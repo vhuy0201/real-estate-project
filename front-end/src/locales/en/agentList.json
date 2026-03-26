@@ -1,0 +1,18 @@
+{
+  "pageTitle": "Real Estate Agents",
+  "title": "Find Your Perfect Real Estate Agent",
+  "subtitle": "Connect with experienced agents who can help you buy, sell, or rent properties",
+  "searchPlaceholder": "Search by name or email...",
+  "noAgentsFound": "No agents found matching your search criteria",
+  "viewAll": "View All",
+  "filterByLocation": "Filter by location",
+  "allLocations": "All locations",
+  "clearFilters": "Clear filters",
+  "found": "Found",
+  "agents": "agents",
+  "properties": "properties",
+  "activeAreas": "Active areas",
+  "viewDetails": "View details",
+  "noResultsDescription": "Try changing your search keywords or filters to get more results"
+}
+

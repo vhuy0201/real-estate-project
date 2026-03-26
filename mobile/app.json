@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "mobile",
+    "slug": "mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true
+        }
+      }
+    },
+    "android": {
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.mobile"
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-image"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1ae9babf-4f8b-4e42-945a-e61f5abf84e6"
+      }
+    }
+  }
+}

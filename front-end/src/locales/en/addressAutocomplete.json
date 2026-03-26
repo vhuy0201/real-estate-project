@@ -1,0 +1,7 @@
+{
+    "addressAutocomplete": {
+        "placeholder": "Enter property address...",
+        "loading": "Loading suggestions...",
+        "notFound": "No matching address found"
+    }
+}
