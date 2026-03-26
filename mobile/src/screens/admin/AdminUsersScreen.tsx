@@ -14,7 +14,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useAdminUsersPage, useUpdateUserStatus, ADMIN_USERS_PAGE_SIZE } from "../../hooks/useAdminUsers";
 import type { AdminUserRow } from "../../types/adminUser";
-import { Alert } from "react-native";
+import { InAppToast } from "../../components/common/InAppToast";
+import { PrettyConfirmModal } from "../../components/common/PrettyConfirmModal";
 
 const ROLE_OPTIONS = [
   { key: "all" as const, label: "Tất cả" },
@@ -30,6 +31,13 @@ export default function AdminUsersScreen() {
   >("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [confirmState, setConfirmState] = useState<{
+    visible: boolean;
+    userId?: string;
+    userName?: string;
+    nextActive?: boolean;
+  }>({ visible: false });
 
   useEffect(() => {
     setCurrentPage(1);
@@ -43,7 +51,16 @@ export default function AdminUsersScreen() {
     refetch,
     error,
   } = useAdminUsersPage(roleFilter, currentPage);
-  const updateStatusMutation = useUpdateUserStatus();
+  const updateStatusMutation = useUpdateUserStatus({
+    onSuccessMessage: (message) => setToast({ type: "success", message }),
+    onErrorMessage: (message) => setToast({ type: "error", message }),
+  });
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 2200);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   const users = useMemo(() => data?.results ?? [], [data]);
   const filteredUsers = useMemo(() => {
@@ -70,7 +87,7 @@ export default function AdminUsersScreen() {
         <View style={styles.userRow}>
           <View style={styles.userInfoCol}>
             <Text style={styles.userName} numberOfLines={1}>
-              {item.fullName || "N/A"}
+              {item.fullName || "Không rõ"}
             </Text>
             <Text style={styles.userEmail} numberOfLines={1}>
               {item.email || "-"}
@@ -78,7 +95,7 @@ export default function AdminUsersScreen() {
           </View>
           <View style={styles.roleCol}>
             <Text style={[styles.rolePill, getRolePillStyle(item.role)]}>
-              {(item.role || "").toUpperCase()}
+              {getRoleLabel(item.role)}
             </Text>
             <Pressable
               style={[
@@ -88,22 +105,12 @@ export default function AdminUsersScreen() {
               onPress={() => {
                 const currentActive = item.isActive !== false;
                 const nextActive = !currentActive;
-                Alert.alert(
-                  nextActive ? "Mở khóa tài khoản" : "Khóa tài khoản",
-                  `Bạn có chắc muốn ${nextActive ? "mở khóa" : "khóa"} tài khoản ${item.fullName || item.email}?`,
-                  [
-                    { text: "Hủy", style: "cancel" },
-                    {
-                      text: "Đồng ý",
-                      style: nextActive ? "default" : "destructive",
-                      onPress: () =>
-                        updateStatusMutation.mutate({
-                          id: item.id,
-                          isActive: nextActive,
-                        }),
-                    },
-                  ]
-                );
+                setConfirmState({
+                  visible: true,
+                  userId: item.id,
+                  userName: item.fullName || item.email,
+                  nextActive,
+                });
               }}
               disabled={
                 updateStatusMutation.isPending &&
@@ -144,9 +151,10 @@ export default function AdminUsersScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <View style={styles.header}>
+        {toast ? <InAppToast type={toast.type} message={toast.message} /> : null}
         <View style={styles.headerTop}>
           <Ionicons name="menu" size={20} color="#1f3b8b" />
-          <Text style={styles.title}>User Management</Text>
+          <Text style={styles.title}>Quản lý người dùng</Text>
           <Ionicons name="search" size={18} color="#1f3b8b" />
         </View>
         <Text style={styles.subtitle}>
@@ -162,13 +170,13 @@ export default function AdminUsersScreen() {
           <TextInput
             value={searchKeyword}
             onChangeText={setSearchKeyword}
-            placeholder="Search by name, email, or ID..."
+            placeholder="Tìm theo tên, email hoặc ID..."
             placeholderTextColor="#94a3b8"
             style={styles.searchInput}
           />
         </View>
 
-        <Text style={styles.filterLabel}>FILTER BY ROLE:</Text>
+        <Text style={styles.filterLabel}>LỌC THEO VAI TRÒ:</Text>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -184,7 +192,7 @@ export default function AdminUsersScreen() {
                 style={[styles.chip, active && styles.chipActive]}
               >
                 <Text style={[styles.chipText, active && styles.chipTextActive]}>
-                  {opt.key === "all" ? "ALL" : opt.label.toUpperCase()}
+                  {opt.key === "all" ? "TẤT CẢ" : opt.label.toUpperCase()}
                 </Text>
               </Pressable>
             );
@@ -235,17 +243,17 @@ export default function AdminUsersScreen() {
             }
             ListHeaderComponent={
               <View style={styles.tableHeader}>
-                <Text style={styles.tableHeaderLabel}>USER DETAILS</Text>
-                <Text style={styles.tableHeaderLabel}>ROLE</Text>
+                <Text style={styles.tableHeaderLabel}>THÔNG TIN NGƯỜI DÙNG</Text>
+                <Text style={styles.tableHeaderLabel}>VAI TRÒ</Text>
               </View>
             }
           />
           <View style={styles.paginationBar}>
             <View style={styles.showingBlock}>
-              <Text style={styles.showingLabel}>SHOWING</Text>
+              <Text style={styles.showingLabel}>HIỂN THỊ</Text>
               <Text style={styles.showingValue}>
                 {Math.min((currentPage - 1) * ADMIN_USERS_PAGE_SIZE + 1, total ?? 0)}-
-                {Math.min(currentPage * ADMIN_USERS_PAGE_SIZE, total ?? 0)} OF {total ?? 0} USERS
+                {Math.min(currentPage * ADMIN_USERS_PAGE_SIZE, total ?? 0)} TRÊN {total ?? 0} NGƯỜI DÙNG
               </Text>
             </View>
             <Pressable
@@ -284,6 +292,23 @@ export default function AdminUsersScreen() {
           </View>
         </>
       )}
+      <PrettyConfirmModal
+        visible={confirmState.visible}
+        title={confirmState.nextActive ? "Mở khóa tài khoản" : "Khóa tài khoản"}
+        message={`Bạn có chắc muốn ${confirmState.nextActive ? "mở khóa" : "khóa"} tài khoản ${confirmState.userName || ""}?`}
+        confirmText={confirmState.nextActive ? "Mở khóa" : "Khóa"}
+        variant={confirmState.nextActive ? "primary" : "danger"}
+        onCancel={() => setConfirmState({ visible: false })}
+        onConfirm={() => {
+          if (confirmState.userId && typeof confirmState.nextActive === "boolean") {
+            updateStatusMutation.mutate({
+              id: confirmState.userId,
+              isActive: confirmState.nextActive,
+            });
+          }
+          setConfirmState({ visible: false });
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -307,6 +332,21 @@ function getRolePillStyle(role: string) {
       return { backgroundColor: "#dbeafe", color: "#1d4ed8" };
     default:
       return { backgroundColor: "#e2e8f0", color: "#475569" };
+  }
+}
+
+function getRoleLabel(role: string) {
+  switch (role) {
+    case "buyer":
+      return "NGƯỜI MUA";
+    case "seller":
+      return "CHỦ NHÀ";
+    case "agent":
+      return "MÔI GIỚI";
+    case "admin":
+      return "QUẢN TRỊ";
+    default:
+      return "KHÁC";
   }
 }
 

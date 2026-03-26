@@ -8,7 +8,6 @@ import {
   Pressable,
   StyleSheet,
   ScrollView,
-  Alert,
   TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -25,12 +24,14 @@ import {
 import { AdminPropertyModerationItem } from "../../components/admin/AdminPropertyModerationItem";
 import type { AdminPropertyListRow, AdminPropertyStatusFilter } from "../../types/adminProperty";
 import type { AdminTabParamList, RootStackParamList } from "../../types/navigation";
+import { InAppToast } from "../../components/common/InAppToast";
+import { PrettyConfirmModal } from "../../components/common/PrettyConfirmModal";
 
 const STATUS_OPTIONS: { key: AdminPropertyStatusFilter; label: string }[] = [
-  { key: "all", label: "ALL" },
-  { key: "pending", label: "PENDING" },
-  { key: "approved", label: "APPROVED" },
-  { key: "rejected", label: "REJECTED" },
+  { key: "all", label: "TẤT CẢ" },
+  { key: "pending", label: "CHỜ DUYỆT" },
+  { key: "approved", label: "ĐÃ DUYỆT" },
+  { key: "rejected", label: "TỪ CHỐI" },
 ];
 
 type Nav = CompositeNavigationProp<
@@ -44,6 +45,10 @@ export default function AdminPropertyModerationScreen() {
     useState<AdminPropertyStatusFilter>("pending");
   const [currentPage, setCurrentPage] = useState(1);
   const [keyword, setKeyword] = useState("");
+  const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [rejectModal, setRejectModal] = useState<{ visible: boolean; item?: AdminPropertyListRow }>({
+    visible: false,
+  });
 
   useEffect(() => {
     setCurrentPage(1);
@@ -58,7 +63,10 @@ export default function AdminPropertyModerationScreen() {
     error,
   } = useAdminPropertiesPage(statusFilter, currentPage);
 
-  const statusMutation = useAdminPropertyStatusMutation();
+  const statusMutation = useAdminPropertyStatusMutation({
+    onSuccessMessage: (message) => setToast({ type: "success", message }),
+    onErrorMessage: (message) => setToast({ type: "error", message }),
+  });
   const busyId =
     statusMutation.isPending && statusMutation.variables
       ? statusMutation.variables.propertyId
@@ -103,23 +111,16 @@ export default function AdminPropertyModerationScreen() {
 
   const confirmReject = useCallback(
     (item: AdminPropertyListRow) => {
-      const id = String(item._id);
-      Alert.alert(
-        "Từ chối bài đăng",
-        "Người đăng sẽ nhận thông báo. Tiếp tục?",
-        [
-          { text: "Hủy", style: "cancel" },
-          {
-            text: "Từ chối",
-            style: "destructive",
-            onPress: () =>
-              statusMutation.mutate({ propertyId: id, status: "rejected" }),
-          },
-        ]
-      );
+      setRejectModal({ visible: true, item });
     },
-    [statusMutation]
+    []
   );
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 2200);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   const renderItem = useCallback(
     ({ item }: { item: AdminPropertyListRow }) => (
@@ -155,19 +156,20 @@ export default function AdminPropertyModerationScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <View style={styles.header}>
+        {toast ? <InAppToast type={toast.type} message={toast.message} /> : null}
         <View style={styles.brandRow}>
           <Ionicons name="menu" size={16} color="#64748b" />
-          <Text style={styles.brandText}>MODERATION LAB</Text>
+          <Text style={styles.brandText}>PHÒNG KIỂM DUYỆT</Text>
           <Ionicons name="shield-checkmark" size={16} color="#1f2937" />
         </View>
-        <Text style={styles.title}>Property Moderation</Text>
+        <Text style={styles.title}>Kiểm duyệt bất động sản</Text>
 
         <View style={styles.searchBar}>
           <Ionicons name="search-outline" size={18} color="#94a3b8" />
           <TextInput
             value={keyword}
             onChangeText={setKeyword}
-            placeholder="Search properties..."
+            placeholder="Tìm bất động sản..."
             placeholderTextColor="#94a3b8"
             style={styles.searchInput}
             autoCapitalize="none"
@@ -236,7 +238,7 @@ export default function AdminPropertyModerationScreen() {
                   <Ionicons name="folder-open-outline" size={48} color="#94a3b8" />
                   <Text style={styles.emptyText}>
                     {keyword.trim()
-                      ? "No matches for your search."
+                      ? "Không có kết quả phù hợp từ khóa."
                       : statusFilter === "pending"
                         ? "Không có bài nào chờ duyệt."
                         : "Không có bài đăng phù hợp bộ lọc."}
@@ -247,10 +249,10 @@ export default function AdminPropertyModerationScreen() {
           />
           <View style={styles.paginationBar}>
             <View style={styles.showingBlock}>
-              <Text style={styles.showingLabel}>SHOWING</Text>
+              <Text style={styles.showingLabel}>HIỂN THỊ</Text>
               <Text style={styles.showingValue}>
                 {Math.min((currentPage - 1) * ADMIN_PROPERTIES_PAGE_SIZE + 1, total ?? 0)}-
-                {Math.min(currentPage * ADMIN_PROPERTIES_PAGE_SIZE, total ?? 0)} OF {total ?? 0}
+                {Math.min(currentPage * ADMIN_PROPERTIES_PAGE_SIZE, total ?? 0)} TRÊN {total ?? 0}
               </Text>
             </View>
             <Pressable
@@ -289,6 +291,23 @@ export default function AdminPropertyModerationScreen() {
           </View>
         </>
       )}
+      <PrettyConfirmModal
+        visible={rejectModal.visible}
+        title="Từ chối bài đăng"
+        message="Người đăng sẽ nhận thông báo từ chối. Bạn muốn tiếp tục?"
+        confirmText="Từ chối"
+        variant="danger"
+        onCancel={() => setRejectModal({ visible: false })}
+        onConfirm={() => {
+          if (rejectModal.item?._id) {
+            statusMutation.mutate({
+              propertyId: String(rejectModal.item._id),
+              status: "rejected",
+            });
+          }
+          setRejectModal({ visible: false });
+        }}
+      />
     </SafeAreaView>
   );
 }

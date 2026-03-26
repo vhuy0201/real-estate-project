@@ -11,11 +11,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import PropertyCard from "../../components/property/PropertyCard";
-import { useMyFavorites } from "../../hooks/useFavorites";
+import { useFavoriteMutations, useMyFavorites } from "../../hooks/useFavorites";
+import { showAppNotice } from "../../utils/appNotice";
 
 export default function FavoritesScreen() {
   const navigation = useNavigation<any>();
   const { data, isLoading, error, refetch } = useMyFavorites();
+  const { removeFavorite } = useFavoriteMutations();
 
   const favorites = data?.properties ?? [];
   const total = typeof data?.total === "number" ? data.total : favorites.length;
@@ -61,6 +63,29 @@ export default function FavoritesScreen() {
           renderItem={({ item }) => (
             <PropertyCard
               property={item}
+              isFavorite
+              isFavoriteLoading={removeFavorite.isPending}
+              onToggleFavorite={async () => {
+                const propertyId = item.id ?? item.property_id ?? "";
+                if (!propertyId) return;
+                try {
+                  await removeFavorite.mutateAsync(String(propertyId));
+                  showAppNotice({
+                    type: "success",
+                    title: "Thành công",
+                    message: "Đã gỡ khỏi yêu thích.",
+                  });
+                } catch (err: any) {
+                  showAppNotice({
+                    type: "error",
+                    title: "Lỗi",
+                    message:
+                      err?.response?.data?.message ||
+                      err?.message ||
+                      "Không thể gỡ khỏi yêu thích.",
+                  });
+                }
+              }}
               onPress={() =>
                 navigation.navigate("PropertyDetails", {
                   propertyId: item.id ?? item.property_id ?? "",

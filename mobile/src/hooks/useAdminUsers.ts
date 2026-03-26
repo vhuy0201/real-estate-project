@@ -1,7 +1,6 @@
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { fetchAdminUsers, updateUserStatus } from "../services/adminUserService";
 import type { AdminUserRole, AdminUsersResponse } from "../types/adminUser";
-import { Alert } from "react-native";
 
 export const ADMIN_USERS_PAGE_SIZE = 10;
 
@@ -28,7 +27,12 @@ export function useAdminUsersPage(roleFilter: RoleFilter, page: number) {
  * - Rollback on error: khôi phục cache cũ nếu API thất bại.
  * - Toast message: Alert thông báo thành công / lỗi.
  */
-export function useUpdateUserStatus() {
+type UpdateUserStatusOptions = {
+  onSuccessMessage?: (message: string) => void;
+  onErrorMessage?: (message: string) => void;
+};
+
+export function useUpdateUserStatus(options?: UpdateUserStatusOptions) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -71,12 +75,12 @@ export function useUpdateUserStatus() {
       const message =
         (_error as { response?: { data?: { message?: string } } })?.response?.data
           ?.message || "Không thể cập nhật trạng thái. Vui lòng thử lại.";
-      Alert.alert("Lỗi", message);
+      options?.onErrorMessage?.(message);
     },
 
     onSuccess: (data) => {
       const userName = (data as any)?.fullName || "Người dùng";
-      Alert.alert("Thành công", `Đã cập nhật trạng thái cho ${userName}.`);
+      options?.onSuccessMessage?.(`Đã cập nhật trạng thái cho ${userName}.`);
     },
 
     onSettled: () => {

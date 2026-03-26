@@ -17,13 +17,12 @@ export const favoriteService = {
 
     const property = await Property.findOne({
       _id: propertyId,
-      status: "approved",
       deleted: false,
     });
 
     if (!property) {
       const err: any = new Error(
-        "Bất động sản không tồn tại hoặc chưa được phê duyệt"
+        "Bất động sản không tồn tại hoặc đã bị xóa"
       );
       err.status = 404;
       throw err;

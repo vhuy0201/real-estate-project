@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import {
   fetchAdminProperties,
@@ -37,7 +36,14 @@ export function useAdminPropertiesPage(
   });
 }
 
-export function useAdminPropertyStatusMutation() {
+type AdminPropertyStatusMutationOptions = {
+  onSuccessMessage?: (message: string) => void;
+  onErrorMessage?: (message: string) => void;
+};
+
+export function useAdminPropertyStatusMutation(
+  options?: AdminPropertyStatusMutationOptions
+) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({
@@ -47,11 +53,16 @@ export function useAdminPropertyStatusMutation() {
       propertyId: string;
       status: "approved" | "rejected";
     }) => patchAdminPropertyStatus(propertyId, status),
-    onSuccess: () => {
+    onSuccess: (_data, vars) => {
       queryClient.invalidateQueries({ queryKey: ["admin", "properties"] });
+      const text =
+        vars.status === "approved"
+          ? "Đã phê duyệt bài đăng thành công."
+          : "Đã từ chối bài đăng thành công.";
+      options?.onSuccessMessage?.(text);
     },
     onError: (err) => {
-      Alert.alert("Lỗi", mutationErrorMessage(err));
+      options?.onErrorMessage?.(mutationErrorMessage(err));
     },
   });
 }
