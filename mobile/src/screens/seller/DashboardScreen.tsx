@@ -31,8 +31,8 @@ export default function DashboardScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView 
-        contentContainerStyle={styles.scrollContent} 
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={isRefetching} onRefresh={onRefresh} colors={['#0ea5e9']} />
@@ -58,21 +58,21 @@ export default function DashboardScreen() {
           <View style={styles.statsRow}>
             <View style={[styles.statCard, { backgroundColor: '#f0fdf4' }]}>
               <View style={styles.statIconBadge}>
-                 <Ionicons name="business" size={16} color="#16a34a" />
+                <Ionicons name="business" size={16} color="#16a34a" />
               </View>
               <Text style={[styles.statValue, { color: '#16a34a' }]}>{stats?.propertiesCount || 0}</Text>
               <Text style={styles.statLabel}>{isAgent ? 'Quản lý' : 'Tin đăng'}</Text>
             </View>
             <View style={[styles.statCard, { backgroundColor: '#eff6ff' }]}>
               <View style={styles.statIconBadge}>
-                 <Ionicons name="eye" size={16} color="#2563eb" />
+                <Ionicons name="eye" size={16} color="#2563eb" />
               </View>
               <Text style={[styles.statValue, { color: '#2563eb' }]}>{stats?.viewsCount || 0}</Text>
               <Text style={styles.statLabel}>Lượt xem</Text>
             </View>
             <View style={[styles.statCard, { backgroundColor: '#fff7ed' }]}>
               <View style={styles.statIconBadge}>
-                 <Ionicons name="calendar" size={16} color="#ea580c" />
+                <Ionicons name="calendar" size={16} color="#ea580c" />
               </View>
               <Text style={[styles.statValue, { color: '#ea580c' }]}>{stats?.acceptedAppointmentsCount || 0}</Text>
               <Text style={styles.statLabel}>Lịch hẹn</Text>
@@ -83,7 +83,7 @@ export default function DashboardScreen() {
         {/* Quick Actions */}
         <Text style={styles.sectionTitle}>Lối tắt</Text>
         <View style={styles.grid}>
-          <Pressable 
+          <Pressable
             style={styles.gridItem}
             onPress={() => navigation.navigate('SellerAgentMain', { screen: 'CreateProperty' } as any)}
           >
@@ -93,7 +93,7 @@ export default function DashboardScreen() {
             <Text style={styles.gridText}>Đăng tin mới</Text>
           </Pressable>
 
-          <Pressable 
+          <Pressable
             style={styles.gridItem}
             onPress={() => navigation.navigate('SellerAgentMain', { screen: 'HandleAssignment' } as any)}
           >
@@ -104,7 +104,7 @@ export default function DashboardScreen() {
           </Pressable>
 
           {isAgent ? (
-             <Pressable 
+            <Pressable
               style={styles.gridItem}
               onPress={() => navigation.navigate('PublicPropertyExplore')}
             >

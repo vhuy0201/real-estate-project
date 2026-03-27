@@ -15,20 +15,30 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import {
   useAgentAppointments,
   useAcceptAppointment,
   useRejectAppointment,
 } from "../../hooks/useAgentAppointments";
+import { useSellerAppointments } from "../../hooks/useAgentAppointments";
 
 export default function AgentAppointmentsScreen() {
   const navigation = useNavigation<any>();
   const [activeTab, setActiveTab] = useState<"pending" | "accepted">("pending");
+  const { user } = useSelector((state: RootState) => state.auth);
+  const isAgent = user?.role === "agent";
 
-  const { data, isLoading, refetch, isRefetching } = useAgentAppointments({
-    status: activeTab,
-    limit: 50,
-  });
+  const agentQuery = useAgentAppointments(
+    isAgent ? { status: activeTab, limit: 50 } : undefined
+  );
+  const sellerQuery = useSellerAppointments(
+    !isAgent ? { status: activeTab, limit: 50 } : undefined
+  );
+
+  const { data, isLoading, refetch, isRefetching } = isAgent ? agentQuery : sellerQuery;
+
 
   const appointments = data?.data || [];
 
@@ -88,14 +98,14 @@ export default function AgentAppointmentsScreen() {
               <Text style={styles.emptyText}>Chưa có lịch hẹn nào</Text>
             </View>
           }
-          renderItem={({ item }) => <AppointmentCard item={item} />}
+          renderItem={({ item }) => <AppointmentCard item={item} isAgent={isAgent} />}
         />
       )}
     </SafeAreaView>
   );
 }
 
-const AppointmentCard = ({ item }: { item: any }) => {
+const AppointmentCard = ({ item, isAgent }: { item: any; isAgent: boolean }) => {
   const { property_id, buyer_id, times, final_time, status, location } = item;
 
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -213,30 +223,32 @@ const AppointmentCard = ({ item }: { item: any }) => {
              );
           })}
 
-          <View style={styles.actionRow}>
-            <Pressable
-              style={styles.rejectBtn}
-              onPress={() => setRejectModalVisible(true)}
-              disabled={acceptMutation.isPending || rejectMutation.isPending}
-            >
-              <Text style={styles.rejectBtnText}>Từ chối</Text>
-            </Pressable>
-            <Pressable
-              style={[
-                styles.acceptBtn,
-                (!selectedTime || acceptMutation.isPending) &&
-                  styles.btnDisabled,
-              ]}
-              onPress={handleAccept}
-              disabled={!selectedTime || acceptMutation.isPending}
-            >
-              {acceptMutation.isPending ? (
-                <ActivityIndicator size="small" color="#fff" />
-              ) : (
-                <Text style={styles.acceptBtnText}>Chấp nhận</Text>
-              )}
-            </Pressable>
-          </View>
+          {isAgent && (
+            <View style={styles.actionRow}>
+              <Pressable
+                style={styles.rejectBtn}
+                onPress={() => setRejectModalVisible(true)}
+                disabled={acceptMutation.isPending || rejectMutation.isPending}
+              >
+                <Text style={styles.rejectBtnText}>Từ chối</Text>
+              </Pressable>
+              <Pressable
+                style={[
+                  styles.acceptBtn,
+                  (!selectedTime || acceptMutation.isPending) &&
+                    styles.btnDisabled,
+                ]}
+                onPress={handleAccept}
+                disabled={!selectedTime || acceptMutation.isPending}
+              >
+                {acceptMutation.isPending ? (
+                  <ActivityIndicator size="small" color="#fff" />
+                ) : (
+                  <Text style={styles.acceptBtnText}>Chấp nhận</Text>
+                )}
+              </Pressable>
+            </View>
+          )}
         </>
       ) : (
         <>

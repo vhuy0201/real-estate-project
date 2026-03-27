@@ -29,6 +29,28 @@ export const useGetSellerAssignments = (
 };
 
 /**
+ * Hook to fetch agent's assignment requests (both sent and received)
+ */
+export const useGetAgentAssignments = (
+  filters?: {
+    status?: string;
+  },
+  enabled = true,
+): UseQueryResult<AssignmentListResponse> => {
+  return useQuery({
+    queryKey: ["agentAssignments", filters?.status],
+    queryFn: async () => {
+      const data = await assignmentService.getAgentAssignments(filters);
+      return {
+        data: Array.isArray(data) ? data : data?.data || [],
+        total: data?.total,
+      } as AssignmentListResponse;
+    },
+    enabled,
+  });
+};
+
+/**
  * Hook to accept an assignment request
  */
 export const useAcceptAssignment = () => {

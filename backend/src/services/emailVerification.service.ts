@@ -1,6 +1,7 @@
 import EmailVerification from "../models/emailVerification.model";
 import { sendEmail } from "../utils/sendEmail";
 import User from "../models/user.model";
+import { generateAccessToken } from "../config/jwt.config";
 
 class EmailVerificationService {
   generateOTP() {
@@ -34,11 +35,33 @@ class EmailVerificationService {
     if (record.otp !== otp) throw new Error("OTP không chính xác.");
     if (record.expiresAt < new Date()) throw new Error("OTP đã hết hạn.");
 
-    await User.findByIdAndUpdate(userId, { isVerified: true });
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { isVerified: true },
+      { new: true }
+    ).lean();
+
+    if (!user) throw new Error("Không tìm thấy người dùng.");
+
     await EmailVerification.deleteMany({ user_id: userId });
 
-    return true;
+    const accessToken = generateAccessToken({
+      id: user._id,
+      role: user.role,
+      email: user.email,
+    });
+
+    return {
+      accessToken,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+      },
+    };
   }
 }
 
 export const emailVerifyService = new EmailVerificationService();
+

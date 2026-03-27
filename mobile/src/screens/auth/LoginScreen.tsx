@@ -39,7 +39,7 @@ export default function LoginScreen() {
       await login({ email: values.email, password: values.password });
     } catch (error: any) {
       const errorData = error?.response?.data;
-      
+
       // Nếu tài khoản chưa xác thực email (Backend trả về 403 và requiresVerification)
       if (error?.response?.status === 403 && errorData?.requiresVerification) {
         navigation.navigate('VerifyEmail', {
@@ -114,9 +114,9 @@ export default function LoginScreen() {
                         touched={touched.password}
                       />
 
-                      <Text style={styles.forgot}>
+                      {/* <Text style={styles.forgot}>
                         Quên mật khẩu?
-                      </Text>
+                      </Text> */}
 
                       <CustomButton
                         title="Đăng nhập"

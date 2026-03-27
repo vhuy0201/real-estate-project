@@ -7,6 +7,7 @@ import offerRoutes from "./offer.route";
 import contractRoutes from "./contract.route";
 import dealRoutes from "./deal.route";
 import paymentRoutes from "./payments.route";
+import appointmentRoutes from "./appointment.route";
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use("/offers", offerRoutes);
 router.use("/contracts", contractRoutes);
 router.use("/deals", dealRoutes);
 router.use("/payments", paymentRoutes);
+router.use("/appointments", appointmentRoutes);
 
 export default router;

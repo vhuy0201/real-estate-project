@@ -6,9 +6,9 @@ import {
   ScrollView,
   Pressable,
   ActivityIndicator,
-  SafeAreaView,
   RefreshControl,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -103,7 +103,7 @@ export default function AgentOfferScreen() {
               style={[
                 styles.filterButtonText,
                 statusFilter === option.value &&
-                  styles.filterButtonTextActive,
+                styles.filterButtonTextActive,
               ]}
             >
               {option.label}

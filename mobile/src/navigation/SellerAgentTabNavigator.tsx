@@ -49,16 +49,20 @@ export default function SellerAgentTabNavigator() {
           ),
         }}
       />
-      <Tab.Screen
-        name="CreateProperty"
-        component={CreatePropertyScreen}
-        options={{
-          tabBarLabel: "Đăng tin",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="add-circle" size={size + 4} color={color} />
-          ),
-        }}
-      />
+
+      {role === "seller" && (
+        <Tab.Screen
+          name="CreateProperty"
+          component={CreatePropertyScreen}
+          options={{
+            tabBarLabel: "Đăng tin",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="add-circle" size={size + 4} color={color} />
+            ),
+          }}
+        />
+      )}
+
       <Tab.Screen
         name="MyProperties"
         component={MyPropertiesScreen}
@@ -69,18 +73,16 @@ export default function SellerAgentTabNavigator() {
           ),
         }}
       />
-      {user?.role === "seller" && (
-        <Tab.Screen
-          name="HandleAssignment"
-          component={HandleAssignmentScreen}
-          options={{
-            tabBarLabel: "Requests",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="person-add" size={size} color={color} />
-            ),
-          }}
-        />
-      )}
+      <Tab.Screen
+        name="HandleAssignment"
+        component={HandleAssignmentScreen}
+        options={{
+          tabBarLabel: "Requests",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-add" size={size} color={color} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="HandleOffer"
         component={offersTabComponent}

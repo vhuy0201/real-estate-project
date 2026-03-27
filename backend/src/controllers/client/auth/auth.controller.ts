@@ -108,13 +108,18 @@ export const verifyEmailController = async (req: Request, res: Response) => {
   try {
     const { userId, otp } = req.body;
 
-    await emailVerifyService.verifyOTP(userId, otp);
+    const result = await emailVerifyService.verifyOTP(userId, otp);
 
-    return successResponse(req, res, "Xác thực email thành công.");
+    // Sau khi verify thành công, trả về accessToken + user để mobile tự đăng nhập
+    return successResponse(req, res, "Xác thực email thành công.", {
+      accessToken: result.accessToken,
+      user: result.user,
+    });
   } catch (error: any) {
     return errorResponse(req, res, error.message);
   }
 };
+
 
 // RESEND OTP
 export const resendOtpController = async (req: Request, res: Response) => {

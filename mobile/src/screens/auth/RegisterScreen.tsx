@@ -26,7 +26,7 @@ const RegisterSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, 'Mật khẩu tối thiểu 8 ký tự (giống yêu cầu server)')
     .required('Vui lòng nhập mật khẩu'),
-  role: Yup.string().oneOf(['buyer', 'agent', 'seller']).required('Vui lòng chọn vai trò'),
+  role: Yup.string().oneOf(['', 'agent', 'seller']).optional(),
 });
 
 export default function RegisterScreen() {
@@ -39,9 +39,9 @@ export default function RegisterScreen() {
         fullName: values.fullName,
         email: values.email,
         password: values.password,
-        role: values.role
+        ...(values.role ? { role: values.role } : {}),
       });
-      
+
       // Backend (SuccessResponse): { success: true, data: { userId, email } }
       const userId = response?.data?.userId || response?.userId;
 
@@ -82,7 +82,7 @@ export default function RegisterScreen() {
               {/* Card */}
               <View style={styles.card}>
                 <Formik
-                  initialValues={{ fullName: '', email: '', password: '', role: 'buyer' }}
+                  initialValues={{ fullName: '', email: '', password: '', role: '' }}
                   validationSchema={RegisterSchema}
                   onSubmit={handleRegister}
                 >
@@ -124,29 +124,10 @@ export default function RegisterScreen() {
 
                       <View style={styles.roleContainer}>
                         <Text style={styles.label}>Bạn đăng ký với vai trò:</Text>
+                        <Text style={styles.roleHint}>Không chọn → mặc định là Người mua</Text>
                         <View style={styles.roleOptions}>
                           <TouchableOpacity
-                            onPress={() => handleChange('role')('buyer')}
-                            style={[
-                              styles.roleItem,
-                              values.role === 'buyer' && styles.roleActive
-                            ]}
-                            activeOpacity={0.7}
-                          >
-                            <View style={[
-                              styles.radio,
-                              values.role === 'buyer' && styles.radioActive
-                            ]}>
-                              {values.role === 'buyer' && <View style={styles.radioInner} />}
-                            </View>
-                            <Text style={[
-                              styles.roleText,
-                              values.role === 'buyer' && styles.roleTextActive
-                            ]}>Người mua</Text>
-                          </TouchableOpacity>
-
-                          <TouchableOpacity
-                            onPress={() => handleChange('role')('seller')}
+                            onPress={() => handleChange('role')(values.role === 'seller' ? '' : 'seller')}
                             style={[
                               styles.roleItem,
                               values.role === 'seller' && styles.roleActive
@@ -159,10 +140,34 @@ export default function RegisterScreen() {
                             ]}>
                               {values.role === 'seller' && <View style={styles.radioInner} />}
                             </View>
-                            <Text style={[
-                              styles.roleText,
-                              values.role === 'seller' && styles.roleTextActive
-                            ]}>Người bán</Text>
+                            <View>
+                              <Text style={[
+                                styles.roleText,
+                                values.role === 'seller' && styles.roleTextActive
+                              ]}>Người bán</Text>
+                            </View>
+                          </TouchableOpacity>
+
+                          <TouchableOpacity
+                            onPress={() => handleChange('role')(values.role === 'agent' ? '' : 'agent')}
+                            style={[
+                              styles.roleItem,
+                              values.role === 'agent' && styles.roleActive
+                            ]}
+                            activeOpacity={0.7}
+                          >
+                            <View style={[
+                              styles.radio,
+                              values.role === 'agent' && styles.radioActive
+                            ]}>
+                              {values.role === 'agent' && <View style={styles.radioInner} />}
+                            </View>
+                            <View>
+                              <Text style={[
+                                styles.roleText,
+                                values.role === 'agent' && styles.roleTextActive
+                              ]}>Môi giới</Text>
+                            </View>
                           </TouchableOpacity>
                         </View>
                       </View>
@@ -240,7 +245,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#374151',
-    marginBottom: 8,
+    marginBottom: 4,
+  },
+  roleHint: {
+    fontSize: 12,
+    color: '#9ca3af',
+    marginBottom: 10,
+    fontStyle: 'italic',
   },
   roleContainer: {
     marginBottom: 20,

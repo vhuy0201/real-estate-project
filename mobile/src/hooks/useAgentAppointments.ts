@@ -5,6 +5,7 @@ import {
   acceptAppointment,
   rejectAppointment,
 } from "../services/agentAppointmentService";
+import { getSellerAppointments } from "../services/sellerAppointmentService";
 
 /** Lấy danh sách lịch hẹn của agent */
 export function useAgentAppointments(params?: {
@@ -16,6 +17,19 @@ export function useAgentAppointments(params?: {
   return useQuery({
     queryKey: ["agent-appointments", params],
     queryFn: () => getAgentAppointments(params),
+  });
+}
+
+/** Lấy danh sách lịch hẹn của seller */
+export function useSellerAppointments(params?: {
+  page?: number;
+  limit?: number;
+  status?: string;
+  property_id?: string;
+}) {
+  return useQuery({
+    queryKey: ["seller-appointments", params],
+    queryFn: () => getSellerAppointments(params),
   });
 }
 

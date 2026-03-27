@@ -389,6 +389,63 @@ export const appointmentService = {
     };
   },
 
+  async getAppointmentsBySeller(
+    sellerId: string,
+    filters: AgentAppointmentFilters = {}
+  ) {
+    ensureValidObjectId(sellerId, "Seller ID không hợp lệ");
+
+    const { page = 1, limit = 10, status, property_id, startDate, endDate } = filters;
+    const pageNum = Number(page) > 0 ? Number(page) : 1;
+    const limitNum = Number(limit) > 0 ? Number(limit) : 10;
+    const skip = (pageNum - 1) * limitNum;
+
+    const query: Record<string, any> = {
+      seller_id: new mongoose.Types.ObjectId(sellerId),
+    };
+
+    if (status) {
+      query.status = status;
+    }
+
+    if (property_id) {
+      ensureValidObjectId(property_id, "Property ID không hợp lệ");
+      query.property_id = new mongoose.Types.ObjectId(property_id);
+    }
+
+    if (startDate || endDate) {
+      query["times.time"] = {};
+      if (startDate) {
+        query["times.time"].$gte = new Date(startDate);
+      }
+      if (endDate) {
+        query["times.time"].$lte = new Date(endDate);
+      }
+    }
+
+    const [items, total] = await Promise.all([
+      Appointment.find(query)
+        .sort({ "times.0.time": 1 })
+        .skip(skip)
+        .limit(limitNum)
+        .populate("property_id", "title images price address status")
+        .populate("buyer_id", "fullName email phone avatar")
+        .populate("agent_id", "fullName email phone avatar")
+        .lean(),
+      Appointment.countDocuments(query),
+    ]);
+
+    return {
+      pagination: {
+        page: pageNum,
+        limit: limitNum,
+        total,
+        totalPages: Math.ceil(total / limitNum),
+      },
+      data: items,
+    };
+  },
+
   async acceptAppointment(
     appointmentId: string,
     agentId: string,
